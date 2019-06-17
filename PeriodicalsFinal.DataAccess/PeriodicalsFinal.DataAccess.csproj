@@ -110,7 +110,12 @@
     <Compile Include="Migrations\201906171923374_Changed_Date_In_EditionModel.Designer.cs">
       <DependentUpon>201906171923374_Changed_Date_In_EditionModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906172149371_Added_Model_For_Magazine_Lists.cs" />
+    <Compile Include="Migrations\201906172149371_Added_Model_For_Magazine_Lists.Designer.cs">
+      <DependentUpon>201906172149371_Added_Model_For_Magazine_Lists.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\MagazineModel.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -136,6 +141,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906171923374_Changed_Date_In_EditionModel.resx">
       <DependentUpon>201906171923374_Changed_Date_In_EditionModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906172149371_Added_Model_For_Magazine_Lists.resx">
+      <DependentUpon>201906172149371_Added_Model_For_Magazine_Lists.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -16,6 +16,7 @@ namespace PeriodicalsFinal.DataAccess.DAL
         public virtual DbSet<EditionModel> Editions { get; set; }
         public virtual DbSet<ArticleModel> Articles { get; set; }
         public virtual DbSet<TopicModel> Topics { get; set; }
+        public virtual DbSet<MagazineModel> Magazines { get; set; }
 
         public static ApplicationDbContext Create()
         {
