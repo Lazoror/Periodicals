@@ -23,6 +23,11 @@ textarea {
     max-width: 280px;
 }
 
+.search-input {
+    min-width: 550px;
+    max-width: 550px;
+}
+
 .bg-custom {
     webkit-box-shadow: 0 0 6px rgba(25,25,34,.16);
     box-shadow: 0 0 6px rgba(25,25,34,.16);

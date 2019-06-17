@@ -14,25 +14,43 @@ namespace PeriodicalsFinal.Controllers
     [Authorize]
     public class MagazineController : Controller
     {
-        private readonly RoleRepository roleRepository = new RoleRepository();
-        private readonly EditionRepository editionRepository = new EditionRepository();
+        private readonly RoleRepository _roleRepository = new RoleRepository();
+        private readonly EditionRepository _editionRepository = new EditionRepository();
 
 
-
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            
-
-            string userID = User.Identity.GetUserId();
-
-            //ViewBag.Subs = db.Subscriptions.Where(a => a.UserId == userID).ToList();
-
             return View();
         }
 
-        [Authorize(Roles = "Publisher,Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create(EditionModel edition)
+        {
+            if (ModelState.IsValid)
+            {
+                edition.EditionStatus = EditionStatus.Creating;
+                
+            }
+
+
+            return View(edition);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit()
         {
             return View();
         }

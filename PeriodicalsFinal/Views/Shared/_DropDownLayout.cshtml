@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Periodicals "Cinnabon"</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/bootstrap-select.min.css")
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light bg-custom">
+        <a class="navbar-brand" href="#">Cinnabon</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    @Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })
+                </li>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin tab
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("Create edition", "Create", "Magazine", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Ban user", "Create", "Home", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Unban user", "Create", "Home", new { }, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+                }
+            </ul>
+
+            <div class="search">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
+            @Html.Partial("_LoginPartial")
+        </div>
+    </nav>
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - "Cinnabon"</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/bootstrap-select.min.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

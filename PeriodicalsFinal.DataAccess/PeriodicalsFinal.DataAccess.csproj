@@ -106,6 +106,10 @@
     <Compile Include="Migrations\201906171316393_Initial.Designer.cs">
       <DependentUpon>201906171316393_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906171923374_Changed_Date_In_EditionModel.cs" />
+    <Compile Include="Migrations\201906171923374_Changed_Date_In_EditionModel.Designer.cs">
+      <DependentUpon>201906171923374_Changed_Date_In_EditionModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -129,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906171316393_Initial.resx">
       <DependentUpon>201906171316393_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906171923374_Changed_Date_In_EditionModel.resx">
+      <DependentUpon>201906171923374_Changed_Date_In_EditionModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

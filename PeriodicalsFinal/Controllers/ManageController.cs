@@ -82,8 +82,7 @@ namespace PeriodicalsFinal.Controllers
 
             if(error != null)
             {
-                ModelState.AddModelError(nameof(user.UserPhoto), "Upload Only images!");
-
+                ModelState.AddModelError(nameof(user.UserPhoto), error);
             }
 
             return View(model);
@@ -94,26 +93,37 @@ namespace PeriodicalsFinal.Controllers
         {
             ApplicationDbContext db = new ApplicationDbContext();
             ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+            string error = "";
+            
 
-            if (postedFile.ContentType == "image/png" || postedFile.ContentType == @"image/jpeg")
+            if ( (postedFile.ContentType == "image/png" || postedFile.ContentType == @"image/jpeg"))
             {
+                // If file is larger than 3mb, display error
+                if(postedFile.ContentLength > 3000000)
+                {
+                    error = "Upload image smaller than 3mb";
+
+                    return RedirectToAction("Index", new { error });
+                }
+
+                // Convert image to byte array
                 byte[] bytes;
                 using (BinaryReader br = new BinaryReader(postedFile.InputStream))
                 {
                     bytes = br.ReadBytes(postedFile.ContentLength);
                 }
 
-                
-
+                // Save byte array to DB
                 user.UserPhoto = bytes;
-
                 db.Entry(user).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Index",new { error = "Upload Only images!" });
+            error = "Upload Only images smaller than 3mb!";
+
+            return RedirectToAction("Index",new { error });
         }
 
         //

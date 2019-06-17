@@ -7,13 +7,13 @@
     ApplicationUser user = ViewBag.User;
     var imgSrc = "";
 
-    if(user.UserPhoto != null)
+    if (user.UserPhoto != null)
     {
         var base64 = Convert.ToBase64String(user.UserPhoto);
         imgSrc = String.Format("data:image/gif;base64,{0}", base64);
     }
 
-    
+
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -21,13 +21,17 @@
 <div class="row">
     <div class="col-md-3">
         <div class="row">
-            <div class="user-photo">
-                <img src="@imgSrc" alt="user photo" class="img-fluid" />
-            </div>
+
+            @if (user.UserPhoto != null)
+            {
+                <div class="user-photo">
+                    <img src="@imgSrc" alt="user photo" class="img-fluid" />
+                </div>
+            }
 
             @using (Html.BeginForm("Index", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                <span>Allowed png, jpg</span>
+                <span>Allowed png, jpg (Max: 3mb)</span>
                 <input type="file" name="postedFile" class="btn btn-custom" accept="image/png,image/jpeg" />
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                 <input type="submit" id="btnUpload" value="Upload" class="btn btn-custom" />
@@ -35,11 +39,9 @@
 
             }
         </div>
-        
+
     </div>
     <div class="col-md-9">
-        
-
         <div class="user-profile">
             <div class="user-profile-name">
                 <label>Name:</label>

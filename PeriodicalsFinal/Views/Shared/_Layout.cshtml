@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Weekly editions "Cinnabon"</title>
+    <title>@ViewBag.Title - Periodicals "Cinnabon"</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -20,25 +20,29 @@
                 <li class="nav-item active">
                     @Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
+                
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin tab
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @Html.ActionLink("Create edition", "Create", "Magazine", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Ban user", "Create", "Home", new { }, new { @class = "dropdown-item" })
+                            @Html.ActionLink("Unban user", "Create", "Home", new { }, new { @class = "dropdown-item" })
+                        </div>
+                    </li>
+                }
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            
+            <div class="search">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
