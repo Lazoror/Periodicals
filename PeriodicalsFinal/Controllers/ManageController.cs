@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -6,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
 
 namespace PeriodicalsFinal.Controllers
@@ -52,7 +54,7 @@ namespace PeriodicalsFinal.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(ManageMessageId? message, string error)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -78,7 +80,40 @@ namespace PeriodicalsFinal.Controllers
             ViewBag.User = user;
             ViewBag.UserRole = UserManager.GetRoles(user.Id);
 
+            if(error != null)
+            {
+                ModelState.AddModelError(nameof(user.UserPhoto), "Upload Only images!");
+
+            }
+
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Index(HttpPostedFileBase postedFile)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            ApplicationUser user = db.Users.Find(User.Identity.GetUserId());
+
+            if (postedFile.ContentType == "image/png" || postedFile.ContentType == @"image/jpeg")
+            {
+                byte[] bytes;
+                using (BinaryReader br = new BinaryReader(postedFile.InputStream))
+                {
+                    bytes = br.ReadBytes(postedFile.ContentLength);
+                }
+
+                
+
+                user.UserPhoto = bytes;
+
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index",new { error = "Upload Only images!" });
         }
 
         //

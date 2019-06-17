@@ -28,6 +28,21 @@ textarea {
     box-shadow: 0 0 6px rgba(25,25,34,.16);
 }
 
+.btn-custom {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: #F5F5F5;
+    border: 1px solid #cecece;
+    margin: 0px 15px 15px 0px;
+}
+
 label {
     font-weight: bold;
+}
+
+.user-photo {
+    webkit-box-shadow: 0 0 6px rgba(25,25,34,.16);
+    box-shadow: 0 0 6px rgba(25,25,34,.16);
+    margin-bottom: 15px;
 }
