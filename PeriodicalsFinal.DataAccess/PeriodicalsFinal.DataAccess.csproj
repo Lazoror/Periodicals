@@ -114,8 +114,13 @@
     <Compile Include="Migrations\201906172149371_Added_Model_For_Magazine_Lists.Designer.cs">
       <DependentUpon>201906172149371_Added_Model_For_Magazine_Lists.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906181808457_Relation_Between_Magazine-Edition.cs" />
+    <Compile Include="Migrations\201906181808457_Relation_Between_Magazine-Edition.Designer.cs">
+      <DependentUpon>201906181808457_Relation_Between_Magazine-Edition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MagazineModel.cs" />
+    <Compile Include="Repository\MagazineRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -127,6 +132,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EditionRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\TopicRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -144,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906172149371_Added_Model_For_Magazine_Lists.resx">
       <DependentUpon>201906172149371_Added_Model_For_Magazine_Lists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906181808457_Relation_Between_Magazine-Edition.resx">
+      <DependentUpon>201906181808457_Relation_Between_Magazine-Edition.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

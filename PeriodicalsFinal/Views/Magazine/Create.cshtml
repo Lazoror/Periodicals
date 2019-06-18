@@ -3,6 +3,8 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_DropDownLayout.cshtml";
+    IEnumerable<string> magazineTitles = ViewBag.MagazineTitles;
+    IEnumerable<string> topics = ViewBag.Topics;
 }
 
 
@@ -11,64 +13,104 @@
 
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Magazine", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Edition</h4>
-        <hr />
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionTitle, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionTitle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditionTitle, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionMonth, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div>
-                    @Html.EnumDropDownListFor(model => model.EditionMonth, "Select month", new { @class = "selectpicker", @data_live_search = "true" })
-                </div>
-                @Html.ValidationMessageFor(model => model.EditionMonth, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionYear, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionYear, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditionYear, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EditionPrice, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EditionImage, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" name="postedFile" class="d-block btn btn-custom" accept="image/png,image/jpeg" />
-                @Html.ValidationMessageFor(model => model.EditionImage, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class='form-group'>
-            <div class='col-md-offset-2 col-md-10'>
-                <input type='submit' value='Create' class='btn btn-custom' />
-            </div>
+<div class="form-horizontal">
+    <h4>Edition</h4>
+    <hr />
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionTitle, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditionTitle, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Magazine</label>
+        <div class="col-md-10">
+            @*@Html.DropDownList("Magazines", new SelectList(magazineTitles), "Select magazine", new { @class = "selectpicker", @data_live_search = "true" })*@
+
+            <div class="magazine-select">
+                <select class="selectpicker-magazine" data-live-search="true" name="magazineName">
+                    @foreach (string item in magazineTitles)
+                    {
+                        <option data-tokens="@item">@item</option>
+                    }
+                </select>
+            </div>
+
+
+            <input type="text" class="form-control" name="customMagazine" id="customMagazine" />
+            @Html.ValidationMessage("magazineName", new { @class = "text-danger" })
+            <div class="custom-magazine-appear">
+                <a href="#">Didn't find your magazine? Add yours!</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionMonth, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div>
+                @Html.EnumDropDownListFor(model => model.EditionMonth, "Select month", new { @class = "selectpicker", @data_live_search = "true" })
+            </div>
+            @Html.ValidationMessageFor(model => model.EditionMonth, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionYear, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionYear, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditionYear, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Topic</label>
+        <div class="col-md-10">
+            <div class="topic-select">
+                <select class="selectpicker-topic" data-live-search="true" name="topicName">
+                    @foreach (string item in topics)
+                    {
+                        <option data-tokens="@item">@item</option>
+                    }
+                </select>
+            </div>
+            @Html.ValidationMessage("topicName", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EditionPrice, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EditionImage, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <p>Allowed png, jpg (Max: 3mb)</p>
+            <input type="file" name="editionCover" class="btn btn-custom" accept="image/png,image/jpeg" />
+            @Html.ValidationMessage("editionCover", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class='form-group'>
+        <div class='col-md-offset-2 col-md-10'>
+            <input type='submit' value='Create' class='btn btn-custom' />
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -78,11 +120,30 @@
 
 <script>
     $(document).ready(function () {
-        $(".selectpicker").selectpicker({
-            "title": "Select Options"
+        $(".selectpicker-magazine").selectpicker({
+            "title": "Select magazine"
         }).selectpicker("render");
+
+        $(".selectpicker").selectpicker({
+            "title": "Select month"
+        }).selectpicker("render");
+
+        $(".selectpicker-topic").selectpicker({
+            "title": "Select topic"
+        }).selectpicker("render");
+
+        $("#customMagazine").hide();
         
+        $(".custom-magazine-appear").on("click", function () {
+
+            if ($(".magazine-select").is(":visible")) {
+                $(".magazine-select").hide();
+                $("#customMagazine").show();
+            } else {
+                $(".magazine-select").show();
+                $("#customMagazine").hide();
+            }
+        });
     });
 
-    
 </script>

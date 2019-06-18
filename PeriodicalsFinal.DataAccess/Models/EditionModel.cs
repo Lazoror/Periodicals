@@ -53,7 +53,6 @@ namespace PeriodicalsFinal.DataAccess.Models
         [Display(Name = "Edition month")]
         public Month EditionMonth { get; set; }
 
-        
         [Range(2000,2100)]
         [Display(Name = "Edition year")]
         public int EditionYear { get; set; }
@@ -63,7 +62,10 @@ namespace PeriodicalsFinal.DataAccess.Models
         public byte[] EditionImage { get; set; }
         public EditionStatus EditionStatus { get; set; }
 
+        public Guid MagazineId { get; set; }
         public Guid TopicId { get; set; }
+
+        public virtual MagazineModel Magazine { get; set; }
 
         public ICollection<ArticleModel> Articles { get; set; }
         public ICollection<SubscriptionModel> Subscriptions { get; set; }
