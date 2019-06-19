@@ -19,7 +19,7 @@ namespace PeriodicalsFinal.Controllers
 
         public ActionResult Index()
         {
-            var editions = _editionRepository.GetAll();
+            var editions = _editionRepository.GetAll().Where(a => a.EditionStatus == EditionStatus.Active);
 
             ViewBag.Editions = editions;
 

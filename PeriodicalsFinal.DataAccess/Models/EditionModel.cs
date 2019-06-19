@@ -45,6 +45,7 @@ namespace PeriodicalsFinal.DataAccess.Models
         public string EditionTitle { get; set; }
 
         [DataType(DataType.Currency)]
+        [Range(0.1, 100)]
         [Required]
         [Display(Name = "Edition price")]
         public float EditionPrice { get; set; }

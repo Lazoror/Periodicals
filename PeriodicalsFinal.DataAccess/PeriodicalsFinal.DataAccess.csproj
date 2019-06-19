@@ -138,6 +138,10 @@
     <Compile Include="Migrations\201906191117026_Relation_User-Subscription_Fix1.Designer.cs">
       <DependentUpon>201906191117026_Relation_User-Subscription_Fix1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906192110243_Added_Short_Description_To_Article.cs" />
+    <Compile Include="Migrations\201906192110243_Added_Short_Description_To_Article.Designer.cs">
+      <DependentUpon>201906192110243_Added_Short_Description_To_Article.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MagazineModel.cs" />
     <Compile Include="Repository\MagazineRepository.cs" />
@@ -188,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906191117026_Relation_User-Subscription_Fix1.resx">
       <DependentUpon>201906191117026_Relation_User-Subscription_Fix1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906192110243_Added_Short_Description_To_Article.resx">
+      <DependentUpon>201906192110243_Added_Short_Description_To_Article.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

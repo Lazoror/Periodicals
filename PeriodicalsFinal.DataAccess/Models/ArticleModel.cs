@@ -31,6 +31,10 @@ namespace PeriodicalsFinal.DataAccess.Models
         [Required]
         [Display(Name = "Edition Content")]
         public string ArticleContent { get; set; }
+
+        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 300)]
+        [Display(Name = "Edition short description")]
+        public string ShortDescription { get; set; }
         public ActiveStatus ArticleStatus { get; set; }
 
         public virtual EditionModel Edition { get; set; }

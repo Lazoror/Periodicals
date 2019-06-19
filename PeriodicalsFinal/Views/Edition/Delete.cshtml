@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<h2>Delete edition</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Are you sure you want to delete this edition?</h2>
+
+        @using (Html.BeginForm("Delete", "Edition", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <input name="deleteConfirm" type="submit" value="Yes" />
+            <input name="deleteConfirm" type="submit" value="No" />
+
+            <input type="hidden" value="@Model" name="editionId" />
+        }
+
+    </div>
+</div>

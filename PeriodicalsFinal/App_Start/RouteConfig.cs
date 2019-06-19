@@ -12,6 +12,7 @@ namespace PeriodicalsFinal
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.MapMvcAttributeRoutes();
             routes.LowercaseUrls = true;
 
             routes.MapRoute(
@@ -20,11 +21,11 @@ namespace PeriodicalsFinal
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            //routes.MapRoute(
-            //    name: "Magazine",
-            //    url: "{controller}/{magazine}/{year}/{month}",
-            //    defaults: new { controller = "Magazine"}
-            //);
+            routes.MapRoute(
+                name: "MagazineEdition",
+                url: "{controller}/{magazine}/{year}/{month}",
+                defaults: new { controller = "Edition", action = "Index" }
+            );
         }
     }
 }

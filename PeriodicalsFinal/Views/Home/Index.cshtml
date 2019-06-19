@@ -22,7 +22,7 @@
                         <img src="@imgSrc" alt="@edition.EditionTitle Cover" class="img-thumbnail img-fluid" />
                     </div>
                     <div class="col-md-6 edition-info">
-                        @Html.ActionLink($"{edition.EditionMonth} {edition.EditionYear}", "Index", "Magazine", new { }, new { @class = "edition-date" })
+                        @Html.ActionLink($"{edition.EditionMonth} {edition.EditionYear}", "Index", "Edition", new { magazine = edition.Magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth  }, new { @class = "edition-date" })
 
 
                         <p class="h2 font-weight-light ">@edition.EditionTitle</p>

@@ -33,6 +33,7 @@ textarea {
     webkit-box-shadow: 0 0 6px rgba(25,25,34,.16);
     box-shadow: 0 0 6px rgba(25,25,34,.16);
     background-color: #141414;
+    height: 70px;
 }
 
 .navbar-dark .navbar-nav .nav-link {

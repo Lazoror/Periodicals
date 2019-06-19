@@ -47,5 +47,12 @@ namespace PeriodicalsFinal.DataAccess.Repository
         {
             return null;
         }
+
+        public EditionModel GetEdition(string magazineName, string year, Month month)
+        {
+            int editionYear = Convert.ToInt32(year);
+            magazineName = magazineName.ToLower();
+            return _db.Editions.FirstOrDefault(a => a.Magazine.MagazineName.ToLower() == magazineName && a.EditionYear == editionYear && a.EditionMonth == month);
+        }
     }
 }

@@ -13,7 +13,7 @@
 
 
 
-@using (Html.BeginForm("Create", "Magazine", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Edition", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -31,8 +31,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Magazine</label>
         <div class="col-md-10">
-            @*@Html.DropDownList("Magazines", new SelectList(magazineTitles), "Select magazine", new { @class = "selectpicker", @data_live_search = "true" })*@
-
+            
             <div class="magazine-select">
                 <select class="selectpicker-magazine" data-live-search="true" name="magazineName">
                     @foreach (string item in magazineTitles)
@@ -113,9 +112,6 @@
 </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 
 <script>
