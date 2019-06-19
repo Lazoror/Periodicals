@@ -5,6 +5,8 @@
 @{
     ViewBag.Title = "Manage Your account";
     ApplicationUser user = ViewBag.User;
+    IEnumerable<SubscriptionModel> subs = ViewBag.Subs;
+
     var imgSrc = "";
 
     if (user.UserPhoto != null)
@@ -87,7 +89,17 @@
             <hr />
             <div class="user-profile-subscriptions">
                 <label>Subscriptions:</label>
+                @foreach (SubscriptionModel item in subs)
+                {
+                    <div class="subscribe">
+                        <span>@item.Edition.Magazine.MagazineName - </span>
+                        <span>@item.Edition.EditionTitle - </span>
+                        <span>@item.Edition.EditionYear - </span>
+                        <span>@item.Edition.EditionMonth</span>
+                        <hr />
+                    </div>
 
+                }
             </div>
         </div>
     </div>

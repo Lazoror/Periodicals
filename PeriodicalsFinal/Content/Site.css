@@ -1,5 +1,6 @@
 ﻿body {
     padding-bottom: 20px;
+    color: #141414;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -31,6 +32,14 @@ textarea {
 .bg-custom {
     webkit-box-shadow: 0 0 6px rgba(25,25,34,.16);
     box-shadow: 0 0 6px rgba(25,25,34,.16);
+    background-color: #141414;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 1);
+    text-transform: uppercase;
+    letter-spacing: .07rem;
+    font-size: 13px;
 }
 
 .btn-custom {
@@ -50,4 +59,14 @@ label {
     webkit-box-shadow: 0 0 6px rgba(25,25,34,.16);
     box-shadow: 0 0 6px rgba(25,25,34,.16);
     margin-bottom: 15px;
+}
+
+.edition-date {
+    color: #1289C4;
+    font-size: 28px;
+    margin-bottom: 0px;
+}
+
+.edition-date:hover {
+    text-decoration: none;
 }

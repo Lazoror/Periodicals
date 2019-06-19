@@ -12,20 +12,15 @@ namespace PeriodicalsFinal.DataAccess.Models
     [Table(name: "Subscription")]
     public class SubscriptionModel
     {
-        public SubscriptionModel()
-        {
-            User = new ApplicationUser();
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public Guid SubscriptionId { get; set; }
-
         public Guid EditionId { get; set; }
-        public string UserId { get; set; }
+        [ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
 
         public virtual EditionModel Edition { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
 
     }
 }

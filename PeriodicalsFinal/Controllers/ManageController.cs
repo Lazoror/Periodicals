@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
+using PeriodicalsFinal.DataAccess.Repository;
 
 namespace PeriodicalsFinal.Controllers
 {
@@ -72,15 +73,21 @@ namespace PeriodicalsFinal.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
             };
 
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            var subs = db.Subscriptions.Where(a => a.Id == userId).ToList();
             var user = UserManager.FindById(userId);
+
+            
 
             ViewBag.User = user;
             ViewBag.UserRole = UserManager.GetRoles(user.Id);
+            ViewBag.Subs = subs;
 
-            if(error != null)
+            if (error != null)
             {
                 ModelState.AddModelError(nameof(user.UserPhoto), error);
             }

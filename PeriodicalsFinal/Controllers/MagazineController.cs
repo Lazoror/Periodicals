@@ -12,21 +12,19 @@ using System.IO;
 
 namespace PeriodicalsFinal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class MagazineController : Controller
     {
-        private readonly RoleRepository _roleRepository = new RoleRepository();
         private readonly EditionRepository _editionRepository = new EditionRepository();
         private readonly MagazineRepository _magazineRepository = new MagazineRepository();
         private readonly TopicRepository _topicRepository = new TopicRepository();
 
-
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             // Get magazines for correct display for magazine select on create edition page
@@ -41,7 +39,7 @@ namespace PeriodicalsFinal.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(EditionModel edition, string magazineName, string customMagazine, string topicName, HttpPostedFileBase editionCover)
         {
             // Get magazines for correct display for magazine select on create edition page
@@ -58,7 +56,7 @@ namespace PeriodicalsFinal.Controllers
                 ModelState.AddModelError(nameof(magazineName), "The Magazine field is reqiured.");
             }
 
-            if(!String.IsNullOrWhiteSpace(magazineName) && !String.IsNullOrWhiteSpace(customMagazine))
+            if (!String.IsNullOrWhiteSpace(magazineName) && !String.IsNullOrWhiteSpace(customMagazine))
             {
                 ModelState.AddModelError(nameof(magazineName), "Select existing magazine or create new, not both.");
             }
@@ -82,6 +80,9 @@ namespace PeriodicalsFinal.Controllers
             {
                 ModelState.AddModelError(nameof(edition.EditionMonth), "The Edition month field is required.");
             }
+
+            // Clear errors from model field, because we have our custom field
+            ModelState[nameof(edition.EditionImage)].Errors.Clear();
 
             // Checks if image is null
             if (editionCover == null)
@@ -130,6 +131,7 @@ namespace PeriodicalsFinal.Controllers
                 }
 
                 // Sets retrieved data from custom fields
+                edition.EditionId = Guid.NewGuid();
                 edition.MagazineId = magazine.MagazineId;
                 edition.TopicId = topic.TopicId;
                 edition.EditionStatus = EditionStatus.Creating;
@@ -145,14 +147,36 @@ namespace PeriodicalsFinal.Controllers
             return View(edition);
         }
 
-        [Authorize(Roles = "Admin")]
+        [HttpGet]
         public ActionResult Delete()
         {
             return View();
         }
 
-        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(MagazineModel edition, string deleteConfirm)
+        {
+            if(deleteConfirm == "Yes")
+            {
+                _magazineRepository.Delete(edition);
+                _magazineRepository.Save();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
         public ActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(MagazineModel magazine)
         {
             return View();
         }

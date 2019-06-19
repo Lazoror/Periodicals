@@ -21,6 +21,8 @@ namespace PeriodicalsFinal.DataAccess.Models
         [DisplayName("Magazine name")]
         public string MagazineName { get; set; }
 
+        public ActiveStatus MagazineStatus { get; set; }
+
         public virtual ICollection<EditionModel> Editions { get; set; }
     }
 }

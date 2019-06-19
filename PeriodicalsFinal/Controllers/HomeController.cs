@@ -8,34 +8,20 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PeriodicalsFinal.DataAccess;
 using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
+using PeriodicalsFinal.DataAccess.Repository;
 
 namespace PeriodicalsFinal.Controllers
 {
     public class HomeController : Controller
     {
-        
+
+        private readonly EditionRepository _editionRepository = new EditionRepository();
+
         public ActionResult Index()
         {
+            var editions = _editionRepository.GetAll();
 
-            
-
-
-
-            //var roles = new List<IdentityRole>
-            //{
-            //    new IdentityRole { Name = "User" },
-            //    new IdentityRole { Name = "Admin" },
-            //    new IdentityRole { Name = "Publisher" }
-            //};
-
-            //foreach (IdentityRole role in roles)
-            //{
-            //    if (!_roleManager.RoleExists(role.Name))
-            //    {
-            //        _roleManager.Create(role);
-            //    }
-
-            //}
+            ViewBag.Editions = editions;
 
             return View();
         }

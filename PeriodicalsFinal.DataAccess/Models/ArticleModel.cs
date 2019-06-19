@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PeriodicalsFinal.DataAccess.Models
 {
-    public enum ArticleStatus
+    public enum ActiveStatus
     {
         Active,
         Deleted
@@ -31,7 +31,7 @@ namespace PeriodicalsFinal.DataAccess.Models
         [Required]
         [Display(Name = "Edition Content")]
         public string ArticleContent { get; set; }
-        public ArticleStatus ArticleStatus { get; set; }
+        public ActiveStatus ArticleStatus { get; set; }
 
         public virtual EditionModel Edition { get; set; }
     }

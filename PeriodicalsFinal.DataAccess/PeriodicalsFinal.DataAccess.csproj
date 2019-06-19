@@ -118,6 +118,26 @@
     <Compile Include="Migrations\201906181808457_Relation_Between_Magazine-Edition.Designer.cs">
       <DependentUpon>201906181808457_Relation_Between_Magazine-Edition.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906191010019_Fix_Relation_ApplicationUser-Subscription.cs" />
+    <Compile Include="Migrations\201906191010019_Fix_Relation_ApplicationUser-Subscription.Designer.cs">
+      <DependentUpon>201906191010019_Fix_Relation_ApplicationUser-Subscription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906191012170_Fix_Relation_ApplicationUser-Subscription2.cs" />
+    <Compile Include="Migrations\201906191012170_Fix_Relation_ApplicationUser-Subscription2.Designer.cs">
+      <DependentUpon>201906191012170_Fix_Relation_ApplicationUser-Subscription2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906191044460_Added_Status_To_Magazine.cs" />
+    <Compile Include="Migrations\201906191044460_Added_Status_To_Magazine.Designer.cs">
+      <DependentUpon>201906191044460_Added_Status_To_Magazine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906191105104_Relation_User-Subscription.cs" />
+    <Compile Include="Migrations\201906191105104_Relation_User-Subscription.Designer.cs">
+      <DependentUpon>201906191105104_Relation_User-Subscription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906191117026_Relation_User-Subscription_Fix1.cs" />
+    <Compile Include="Migrations\201906191117026_Relation_User-Subscription_Fix1.Designer.cs">
+      <DependentUpon>201906191117026_Relation_User-Subscription_Fix1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MagazineModel.cs" />
     <Compile Include="Repository\MagazineRepository.cs" />
@@ -153,6 +173,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906181808457_Relation_Between_Magazine-Edition.resx">
       <DependentUpon>201906181808457_Relation_Between_Magazine-Edition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906191010019_Fix_Relation_ApplicationUser-Subscription.resx">
+      <DependentUpon>201906191010019_Fix_Relation_ApplicationUser-Subscription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906191012170_Fix_Relation_ApplicationUser-Subscription2.resx">
+      <DependentUpon>201906191012170_Fix_Relation_ApplicationUser-Subscription2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906191044460_Added_Status_To_Magazine.resx">
+      <DependentUpon>201906191044460_Added_Status_To_Magazine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906191105104_Relation_User-Subscription.resx">
+      <DependentUpon>201906191105104_Relation_User-Subscription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906191117026_Relation_User-Subscription_Fix1.resx">
+      <DependentUpon>201906191117026_Relation_User-Subscription_Fix1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -19,7 +19,8 @@ namespace PeriodicalsFinal.DataAccess.Repository
 
         public void Delete(MagazineModel entity)
         {
-            throw new NotImplementedException();
+            entity.MagazineStatus = ActiveStatus.Deleted;
+            _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
 
         public IEnumerable<MagazineModel> GetAll()
@@ -29,7 +30,7 @@ namespace PeriodicalsFinal.DataAccess.Repository
 
         public MagazineModel GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _db.Magazines.FirstOrDefault(a => a.MagazineId == id);
         }
 
         public void Save()
@@ -39,7 +40,7 @@ namespace PeriodicalsFinal.DataAccess.Repository
 
         public void Update(MagazineModel entity)
         {
-            throw new NotImplementedException();
+            _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
 
         public MagazineModel GetByName (string name)
