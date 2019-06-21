@@ -1,4 +1,5 @@
-﻿using PeriodicalsFinal.DataAccess.Models;
+﻿using PeriodicalsFinal.DataAccess.Filters;
+using PeriodicalsFinal.DataAccess.Models;
 using PeriodicalsFinal.DataAccess.Repository;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace PeriodicalsFinal.Controllers
 
         [Route("{magazine}/{year}/{month}")]
         [AllowAnonymous]
+        [MyCustomException]
         public ActionResult Index(string magazine, string year, string month)
         {
             var edition = _editionRepository.GetEdition(magazine, year, (Month)Convert.ToInt32(month));

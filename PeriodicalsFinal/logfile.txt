@@ -1,0 +1,35 @@
+------Debug(2019-06-21 20:20:53.0219)DESKTOP-IF7JANO------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Hi I am NLog Debug Level
+
+------Info(2019-06-21 20:20:53.0549)DESKTOP-IF7JANO------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Hi I am NLog Info Level
+
+------Warn(2019-06-21 20:20:53.0619)DESKTOP-IF7JANO------
+
+                      Exception Type: |
+                      Exception Message: |
+                      Stack Trace: |
+                      Additional Info:Hi I am NLog Warn Level
+
+------Error(2019-06-21 20:20:53.0619)DESKTOP-IF7JANO------
+
+                      Exception Type:System.NullReferenceException |
+                      Exception Message:Object reference not set to an instance of an object. |
+                      Stack Trace: |
+                      Additional Info:Hi I am NLog Error Level
+
+------Fatal(2019-06-21 20:20:53.0769)DESKTOP-IF7JANO------
+
+                      Exception Type:System.NullReferenceException |
+                      Exception Message:Object reference not set to an instance of an object. |
+                      Stack Trace: |
+                      Additional Info:Hi I am NLog Fatal Level
+

@@ -6,8 +6,13 @@
 
 
 @{
-    var base64 = Convert.ToBase64String(Model.EditionImage);
-    var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+    var imgSrc = "";
+
+    if(Model != null)
+    {
+        var base64 = Convert.ToBase64String(Model.EditionImage);
+        imgSrc = String.Format("data:image/png;base64,{0}", base64);
+    }
 }
 
 

@@ -197,5 +197,6 @@
       <DependentUpon>201906192110243_Added_Short_Description_To_Article.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

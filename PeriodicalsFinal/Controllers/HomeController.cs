@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using NLog;
 using PeriodicalsFinal.DataAccess;
 using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
@@ -14,14 +15,17 @@ namespace PeriodicalsFinal.Controllers
 {
     public class HomeController : Controller
     {
-
+        public readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly EditionRepository _editionRepository = new EditionRepository();
 
         public ActionResult Index()
         {
+
             var editions = _editionRepository.GetAll().Where(a => a.EditionStatus == EditionStatus.Active);
 
             ViewBag.Editions = editions;
+
+
 
             return View();
         }
