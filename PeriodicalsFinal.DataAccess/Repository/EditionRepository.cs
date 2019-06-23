@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace PeriodicalsFinal.DataAccess.Repository
 {
@@ -48,11 +49,16 @@ namespace PeriodicalsFinal.DataAccess.Repository
             return null;
         }
 
-        public EditionModel GetEdition(string magazineName, string year, Month month)
+        public EditionModel GetEdition(string magazineName, int year, Month month)
         {
             int editionYear = Convert.ToInt32(year);
             magazineName = magazineName.ToLower();
             return _db.Editions.FirstOrDefault(a => a.Magazine.MagazineName.ToLower() == magazineName && a.EditionYear == editionYear && a.EditionMonth == month);
+        }
+
+        public IEnumerable<ArticleModel> GetArticles(Guid editionId)
+        {
+            return _db.Editions.Where(a => a.EditionId == editionId).Include(a => a.Articles).SelectMany(a => a.Articles);
         }
     }
 }

@@ -1,41 +1,51 @@
 ﻿@using PeriodicalsFinal.DataAccess.Models
+@using System.Data.Entity
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Editions";
 
-    IEnumerable<EditionModel> editions = ViewBag.Editions;
+    var editions = ViewBag.Editions;
 }
 
-<div class="row">
-    <div class="col-md-9">
-        @foreach (EditionModel edition in editions)
-        {
-            var base64 = Convert.ToBase64String(edition.EditionImage);
-            var imgSrc = String.Format("data:image/png;base64,{0}", base64);
-
-            
-            <div class="edition-wrapper">
-                <p class="h3 text-uppercase font-weight-bold">@edition.Magazine.MagazineName</p>
-                <hr />
-                <div class="row">
-                    <div class="col-md-6 edition-cover">
-                        <img src="@imgSrc" alt="@edition.EditionTitle Cover" class="img-thumbnail img-fluid" />
-                    </div>
-                    <div class="col-md-6 edition-info">
-                        @Html.ActionLink($"{edition.EditionMonth} {edition.EditionYear}", "Index", "Edition", new { magazine = edition.Magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth  }, new { @class = "edition-date" })
 
 
-                        <p class="h2 font-weight-light ">@edition.EditionTitle</p>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-    <div class="col-md-3">
-        <p class="h3 text-uppercase font-weight-bold">Sidebar</p>
+@foreach (KeyValuePair<EditionModel, IEnumerable<ArticleModel>> edition in editions)
+{
+    // Converts image from byte array to an image
+    var base64 = Convert.ToBase64String(edition.Key.EditionImage);
+    var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+
+
+    <div class="edition-wrapper">
+        <p class="h3 text-uppercase font-weight-bold">@edition.Key.Magazine.MagazineName</p>
         <hr />
+        <div class="row">
+            <div class="col-md-6 edition-cover">
+                <img src="@imgSrc" alt="@edition.Key.EditionTitle Cover" class="img-thumbnail img-fluid" />
+            </div>
+            <div class="col-md-6 edition-info">
+                @Html.ActionLink($"{edition.Key.EditionMonth} {edition.Key.EditionYear}", "Index", "Edition", new { magazine = edition.Key.Magazine.MagazineName, year = edition.Key.EditionYear, month = (int)edition.Key.EditionMonth }, new { @class = "edition-date" })
+
+                <p class="edition-title">@edition.Key.EditionTitle</p>
+
+
+                @foreach (ArticleModel article in edition.Value)
+                {
+                    <span class="article-preview-title">@article.ArticleTitle</span>
+
+                    if (article.ShortDescription != null)
+                    {
+                        <p class="article-preview-shortTitle">@article.ShortDescription</p>
+                    }
+                }
+
+            </div>
+        </div>
     </div>
-</div>
+}
+
+
+
 
 
 

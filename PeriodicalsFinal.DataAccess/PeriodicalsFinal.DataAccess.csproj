@@ -142,8 +142,25 @@
     <Compile Include="Migrations\201906192110243_Added_Short_Description_To_Article.Designer.cs">
       <DependentUpon>201906192110243_Added_Short_Description_To_Article.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906231452533_Removed_Length_Constraints_From_ShortDescription.cs" />
+    <Compile Include="Migrations\201906231452533_Removed_Length_Constraints_From_ShortDescription.Designer.cs">
+      <DependentUpon>201906231452533_Removed_Length_Constraints_From_ShortDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906231748140_Added_Artickeid_FK_To_Edition.cs" />
+    <Compile Include="Migrations\201906231748140_Added_Artickeid_FK_To_Edition.Designer.cs">
+      <DependentUpon>201906231748140_Added_Artickeid_FK_To_Edition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906231759419_Fix_Relation_One-to-Many_Article_Edition.cs" />
+    <Compile Include="Migrations\201906231759419_Fix_Relation_One-to-Many_Article_Edition.Designer.cs">
+      <DependentUpon>201906231759419_Fix_Relation_One-to-Many_Article_Edition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906231831373_Fix_Relation_One-to-Many_Article_Edition2.cs" />
+    <Compile Include="Migrations\201906231831373_Fix_Relation_One-to-Many_Article_Edition2.Designer.cs">
+      <DependentUpon>201906231831373_Fix_Relation_One-to-Many_Article_Edition2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MagazineModel.cs" />
+    <Compile Include="Repository\ArticleRepository.cs" />
     <Compile Include="Repository\MagazineRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
@@ -195,6 +212,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906192110243_Added_Short_Description_To_Article.resx">
       <DependentUpon>201906192110243_Added_Short_Description_To_Article.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906231452533_Removed_Length_Constraints_From_ShortDescription.resx">
+      <DependentUpon>201906231452533_Removed_Length_Constraints_From_ShortDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906231748140_Added_Artickeid_FK_To_Edition.resx">
+      <DependentUpon>201906231748140_Added_Artickeid_FK_To_Edition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906231759419_Fix_Relation_One-to-Many_Article_Edition.resx">
+      <DependentUpon>201906231759419_Fix_Relation_One-to-Many_Article_Edition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906231831373_Fix_Relation_One-to-Many_Article_Edition2.resx">
+      <DependentUpon>201906231831373_Fix_Relation_One-to-Many_Article_Edition2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

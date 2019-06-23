@@ -9,10 +9,11 @@ using System.Web.Mvc;
 using PeriodicalsFinal.DataAccess.Repository;
 using PeriodicalsFinal.DataAccess.Models;
 using System.IO;
+using PeriodicalsFinal.Filters;
 
 namespace PeriodicalsFinal.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [MyAuthorize(Roles = "Admin")]
     public class MagazineController : Controller
     {
         private readonly EditionRepository _editionRepository = new EditionRepository();

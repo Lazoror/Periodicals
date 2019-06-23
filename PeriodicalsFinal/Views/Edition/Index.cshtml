@@ -1,7 +1,7 @@
 ﻿@model PeriodicalsFinal.DataAccess.Models.EditionModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.EditionTitle;
 }
 
 
@@ -17,12 +17,18 @@
 
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         @if (User.IsInRole("Admin"))
         {
             <div class="admin-controls">
-                @Html.ActionLink("Edit", "Edit", "Edition", new { editionId = Model.EditionId }, new { })
-                @Html.ActionLink("Delete", "Delete", "Edition", new { editionId = Model.EditionId }, new { })
+                @Html.ActionLink("Edit", "Edit", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Delete", "Delete", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
+            </div>
+        }
+        @if (User.IsInRole("Publisher") || User.IsInRole("Admin"))
+        {
+            <div class="admin-controls">
+                @Html.ActionLink("Create article", "Create", "Article", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
             </div>
         }
 

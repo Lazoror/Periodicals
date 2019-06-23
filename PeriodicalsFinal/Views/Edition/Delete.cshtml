@@ -14,8 +14,8 @@
         {
             @Html.AntiForgeryToken()
 
-            <input name="deleteConfirm" type="submit" value="Yes" />
-            <input name="deleteConfirm" type="submit" value="No" />
+            <input name="deleteConfirm" type="submit" value="Yes" class="btn btn-custom"/>
+            <input name="deleteConfirm" type="submit" value="No" class="btn btn-custom"/>
 
             <input type="hidden" value="@Model" name="editionId" />
         }

@@ -4,4 +4,7 @@
 }
 
 <h2>Unauthorized</h2>
+<h3>Cannot reach this page</h3>
 
+@Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })
+@Html.ActionLink("Login as administrator", "Login", "Account", new { returnUrl = ViewBag.ReturnUrl }, new { @class = "nav-link" })

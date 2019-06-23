@@ -35,7 +35,8 @@ namespace PeriodicalsFinal
         {
             Exception exception = Server.GetLastError();
             // Log the error!
-            _Logger.Trace($"URL:{Request.Url} \n {exception}");
+            _Logger.Trace($"URL:{Request.Url} \n Stack Trace: {exception}");
+
 
         }
     }

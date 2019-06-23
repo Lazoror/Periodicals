@@ -71,3 +71,30 @@ label {
 .edition-date:hover {
     text-decoration: none;
 }
+
+.admin-controls {
+    display: inline-block;
+}
+
+
+#ArticleContent {
+    max-width: 100%;
+    min-height: 50%;
+    height: 500px;
+}
+
+.article-preview-title {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.article-preview-shortTitle {
+    color: #616161;
+    font-size: 14px;
+}
+
+.edition-title {
+    font-weight: 300;
+    margin-bottom: 15px;
+    font-size: 36px;
+}

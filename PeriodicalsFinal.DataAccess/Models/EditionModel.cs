@@ -66,6 +66,7 @@ namespace PeriodicalsFinal.DataAccess.Models
         public Guid MagazineId { get; set; }
         public Guid TopicId { get; set; }
 
+
         public virtual MagazineModel Magazine { get; set; }
 
         public ICollection<ArticleModel> Articles { get; set; }

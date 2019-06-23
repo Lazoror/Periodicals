@@ -4,10 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PeriodicalsFinal.DataAccess.Repository;
+using PeriodicalsFinal.Filters;
 
 namespace PeriodicalsFinal.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [MyAuthorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly RoleRepository _rolesManager = new RoleRepository();

@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
-namespace PeriodicalsFinal.DataAccess.Filters
+namespace PeriodicalsFinal.Filters
 {
     public class MyCustomException : FilterAttribute, IExceptionFilter
     {
@@ -17,10 +18,12 @@ namespace PeriodicalsFinal.DataAccess.Filters
             if (!exceptionContext.ExceptionHandled &&
             exceptionContext.Exception is NullReferenceException)
             {
+                _Logger.Trace($"URL:{exceptionContext.HttpContext.Request.Url} \n Stack Trace: {exceptionContext.Exception}");
                 exceptionContext.Result =
-                new RedirectResult("/Error/Index");
+                new RedirectResult($"/Error/HttpError404");
                 exceptionContext.ExceptionHandled = true;
             }
-        }
+        }
+
     }
 }

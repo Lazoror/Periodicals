@@ -26,10 +26,16 @@ namespace PeriodicalsFinal.DataAccess.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ArticleModel>()
+                        .HasRequired(r => r.Edition)
+                        .WithMany(s => s.Articles)
+                        .HasForeignKey(f => f.EditionId)
+                        .WillCascadeOnDelete(false);
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            
+
         }
     }
 }

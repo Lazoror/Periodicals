@@ -184,7 +184,7 @@
     <Compile Include="Controllers\MagazineController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
-    <Compile Include="Filters\Authorized.cs" />
+    <Compile Include="Filters\MyAuthorize.cs" />
     <Compile Include="Filters\MyCustomException.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

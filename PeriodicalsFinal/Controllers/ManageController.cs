@@ -10,10 +10,11 @@ using Microsoft.Owin.Security;
 using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
 using PeriodicalsFinal.DataAccess.Repository;
+using PeriodicalsFinal.Filters;
 
 namespace PeriodicalsFinal.Controllers
 {
-    [Authorize]
+    [MyAuthorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

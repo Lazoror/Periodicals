@@ -1,6 +1,6 @@
-﻿using PeriodicalsFinal.DataAccess.Filters;
-using PeriodicalsFinal.DataAccess.Models;
+﻿using PeriodicalsFinal.DataAccess.Models;
 using PeriodicalsFinal.DataAccess.Repository;
+using PeriodicalsFinal.Filters;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace PeriodicalsFinal.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
+    [MyAuthorize(Roles = "Admin")]
     public class EditionController : Controller
     {
         private readonly EditionRepository _editionRepository = new EditionRepository();
@@ -23,11 +23,20 @@ namespace PeriodicalsFinal.Controllers
         [MyCustomException]
         public ActionResult Index(string magazine, string year, string month)
         {
-            var edition = _editionRepository.GetEdition(magazine, year, (Month)Convert.ToInt32(month));
+            Int32.TryParse(month, out int monthNum);
+            Int32.TryParse(year, out int yearNum);
 
-            return View(edition);
+            if ( (monthNum > 0 && monthNum < 13) && (yearNum >= 2000 && yearNum <= 2100))
+            {
+                var edition = _editionRepository.GetEdition(magazine, yearNum, (Month)monthNum);
+
+                return View(edition);
+            }
+
+            return View();
         }
-
+        
+        [HttpGet]
         public ActionResult Create()
         {
             // Get magazines for correct display for magazine select on create edition page
@@ -40,7 +49,7 @@ namespace PeriodicalsFinal.Controllers
 
             return View();
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(EditionModel edition, string magazineName, string customMagazine, string topicName, HttpPostedFileBase editionCover)

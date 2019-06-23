@@ -29,11 +29,10 @@ namespace PeriodicalsFinal.DataAccess.Models
 
         [StringLength(10000, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 300)]
         [Required]
-        [Display(Name = "Edition Content")]
+        [Display(Name = "Article Content")]
         public string ArticleContent { get; set; }
 
-        [StringLength(30, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 300)]
-        [Display(Name = "Edition short description")]
+        [Display(Name = "Article short description")]
         public string ShortDescription { get; set; }
         public ActiveStatus ArticleStatus { get; set; }
 

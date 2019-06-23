@@ -9,11 +9,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PeriodicalsFinal.DataAccess.Models;
-
+using PeriodicalsFinal.Filters;
 
 namespace PeriodicalsFinal.Controllers
 {
-    [Authorize]
+    [MyAuthorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
