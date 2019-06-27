@@ -1,0 +1,14 @@
+﻿
+@if (User.IsInRole("Admin"))
+{
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Admin tab
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            @Html.ActionLink("Create edition", "Create", "Edition", new { }, new { @class = "dropdown-item" })
+            @Html.ActionLink("Manage topic", "Index", "Topic", new { }, new { @class = "dropdown-item" })
+            @Html.ActionLink("Ban user", "Create", "Home", new { }, new { @class = "dropdown-item" })
+        </div>
+    </li>
+}

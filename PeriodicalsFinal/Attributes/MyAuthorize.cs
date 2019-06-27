@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace PeriodicalsFinal.Filters
+namespace PeriodicalsFinal.Attributes
 {
     public class MyAuthorize : AuthorizeAttribute
     {

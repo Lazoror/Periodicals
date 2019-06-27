@@ -1,6 +1,9 @@
 ﻿@model PeriodicalsFinal.DataAccess.Models.EditionModel
 
+@using PeriodicalsFinal.DataAccess.Models
+
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = Model.EditionTitle;
 }
 
@@ -8,16 +11,18 @@
 @{
     var imgSrc = "";
 
-    if(Model != null)
+    if (Model != null)
     {
         var base64 = Convert.ToBase64String(Model.EditionImage);
         imgSrc = String.Format("data:image/png;base64,{0}", base64);
     }
+
+    IEnumerable<ArticleModel> articles = ViewBag.Articles;
 }
 
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         @if (User.IsInRole("Admin"))
         {
             <div class="admin-controls">
@@ -25,16 +30,57 @@
                 @Html.ActionLink("Delete", "Delete", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
             </div>
         }
+
         @if (User.IsInRole("Publisher") || User.IsInRole("Admin"))
         {
             <div class="admin-controls">
                 @Html.ActionLink("Create article", "Create", "Article", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
             </div>
         }
+    </div>
 
-        <p class="edition-date">@Model.EditionYear @Model.EditionMonth</p>
-        <h2>@Model.EditionTitle</h2>
+    <div class="col-md-12">
+        <span class="edition-title">@Model.Magazine.MagazineName:</span>
+        <span class="edition-date">@Model.EditionYear @Model.EditionMonth</span>
+        <hr />
+    </div>
+
+    <div class="col-md-6">
         <img src="@imgSrc" alt="@Model.EditionTitle cover" class="img-fluid" />
+
+        <div class="subscribe">
+            @Html.ActionLink("Subscribe", "Subscribe", "Edition", new { }, new { })
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <p class="edition-title">@Model.EditionTitle</p>
+
+        @if (articles.Count() >= 3)
+        {
+            foreach (ArticleModel article in articles.Take(3))
+            {
+                <span class="article-preview-title">@article.ArticleTitle</span>
+
+                if (article.ShortDescription != null)
+                {
+                    <p class="article-preview-shortTitle">@article.ShortDescription</p>
+                }
+            }
+        }
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        @foreach (ArticleModel article in articles.Skip(3))
+        {
+            <span class="article-preview-title">@article.ArticleTitle</span>
+
+            if (article.ShortDescription != null)
+            {
+                <p class="article-preview-shortTitle">@article.ShortDescription</p>
+            }
+        }
+    </div>
+</div>

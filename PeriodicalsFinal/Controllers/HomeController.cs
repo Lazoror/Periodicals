@@ -27,6 +27,10 @@ namespace PeriodicalsFinal.Controllers
             return View();
         }
 
+        public RedirectToRouteResult Search(string name)
+        {
+            return RedirectToAction("Index", "Edition", new { magazine = "entrepreneur", year = 2019, month = 4 });
+        }
        
 
     }

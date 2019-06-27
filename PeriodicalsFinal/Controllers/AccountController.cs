@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PeriodicalsFinal.DataAccess.Models;
-using PeriodicalsFinal.Filters;
+using PeriodicalsFinal.Attributes;
 
 namespace PeriodicalsFinal.Controllers
 {

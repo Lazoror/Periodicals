@@ -1,21 +1,23 @@
 ﻿@model PeriodicalsFinal.DataAccess.Models.EditionModel
 
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_DropDownLayout.cshtml";
-    IEnumerable<string>
-    magazineTitles = ViewBag.MagazineTitles;
-    IEnumerable<string>
-        topics = ViewBag.Topics;
+    IEnumerable<string> magazineTitles = ViewBag.MagazineTitles;
+    IEnumerable<string> topics = ViewBag.Topics;
+    ViewBag.Title = "Edit";
+
+    var imgSrc = "";
+
+    if (Model.EditionImage != null)
+    {
+        var base64 = Convert.ToBase64String(Model.EditionImage);
+        imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+    }
+
 }
 
+<h2>Edit</h2>
 
-
-<h2>Create</h2>
-
-
-
-@using (Html.BeginForm("Create", "Edition", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Edition", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -35,20 +37,16 @@
             <div class="col-md-10">
 
                 <div class="magazine-select">
-                    <select class="selectpicker-magazine" data-live-search="true" name="magazineName">
+                    <select class="form-control mb-1" name="magazineName">
                         @foreach (string item in magazineTitles)
                         {
-                            <option data-tokens="@item">@item</option>
+                            <option>@item</option>
                         }
                     </select>
                 </div>
 
-
-                <input type="text" class="form-control" name="customMagazine" id="customMagazine" />
+                <input type="text" class="form-control" name="customMagazine" id="customMagazine" placeholder="Custom magazine" />
                 @Html.ValidationMessage("magazineName", new { @class = "text-danger" })
-                <div class="custom-magazine-appear">
-                    <a href="#">Didn't find your magazine? Add yours!</a>
-                </div>
 
             </div>
         </div>
@@ -57,7 +55,7 @@
             @Html.LabelFor(model => model.EditionMonth, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div>
-                    @Html.EnumDropDownListFor(model => model.EditionMonth, "Select month", new { @class = "selectpicker", @data_live_search = "true" })
+                    @Html.EnumDropDownListFor(model => model.EditionMonth, "Select month", new { @class = "form-control" })
                 </div>
                 @Html.ValidationMessageFor(model => model.EditionMonth, "", new { @class = "text-danger" })
             </div>
@@ -71,20 +69,21 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="control-label col-md-2">Topic</label>
-            <div class="col-md-10">
-                <div class="topic-select">
-                    <select class="selectpicker-topic" data-live-search="true" name="topicName">
-                        @foreach (string item in topics)
-                        {
-                            <option data-tokens="@item">@item</option>
-                        }
-                    </select>
-                </div>
-                @Html.ValidationMessage("topicName", new { @class = "text-danger" })
+
+        <label class="control-label col-md-2">Topic</label>
+        <div class="col-md-10">
+            <div class="topic-select">
+                <select class="form-control" name="topicName">
+                    @foreach (string item in topics)
+                    {
+                        <option>@item</option>
+                    }
+                </select>
             </div>
+
+            @Html.ValidationMessage("topicName", new { @class = "text-danger" })
         </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.EditionPrice, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -95,16 +94,17 @@
         </div>
 
 
-
         <div class="form-group">
             @Html.LabelFor(model => model.EditionImage, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+                <img src="@imgSrc" alt="user photo" class="img-fluid" />
                 <p>Allowed png, jpg (Max: 3mb)</p>
-                <input type="file" name="editionCover" class="btn btn-custom" accept="image/png,image/jpeg" />
+                <input type="file" name="editionCover" class="btn btn-custom" accept="image/png,image/jpeg" />>
                 @Html.ValidationMessage("editionCover", new { @class = "text-danger" })
             </div>
         </div>
 
+        <input type="hidden" name="editionId" value="@Model.EditionId" />
 
         <div class='form-group'>
             <div class='col-md-offset-2 col-md-10'>
@@ -114,34 +114,3 @@
     </div>
 }
 
-
-
-<script>
-    $(document).ready(function () {
-        $(".selectpicker-magazine").selectpicker({
-            "title": "Select magazine"
-        }).selectpicker("render");
-
-        $(".selectpicker").selectpicker({
-            "title": "Select month"
-        }).selectpicker("render");
-
-        $(".selectpicker-topic").selectpicker({
-            "title": "Select topic"
-        }).selectpicker("render");
-
-        $("#customMagazine").hide();
-
-        $(".custom-magazine-appear").on("click", function () {
-
-            if ($(".magazine-select").is(":visible")) {
-                $(".magazine-select").hide();
-                $("#customMagazine").show();
-            } else {
-                $(".magazine-select").show();
-                $("#customMagazine").hide();
-            }
-        });
-    });
-
-</script>

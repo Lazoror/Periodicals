@@ -10,7 +10,7 @@ using Microsoft.Owin.Security;
 using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
 using PeriodicalsFinal.DataAccess.Repository;
-using PeriodicalsFinal.Filters;
+using PeriodicalsFinal.Attributes;
 
 namespace PeriodicalsFinal.Controllers
 {
@@ -379,6 +379,38 @@ namespace PeriodicalsFinal.Controllers
             }
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+        }
+
+
+        public ActionResult LockoutUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LockoutUser(string userName, int timeDay)
+        {
+            ApplicationUser user = await _userManager.FindByNameAsync(userName);
+
+            if(user != null)
+            {
+                bool isLocked = await _userManager.IsLockedOutAsync(user.Id);
+
+                if (!isLocked)
+                {
+                    await _userManager.SetLockoutEndDateAsync(user.Id, DateTime.Today.AddDays(timeDay));
+
+                    return RedirectToAction("LockoutUser");
+                }
+
+                ModelState.AddModelError("", $"User '{userName}' is already locked");
+
+            }
+
+            ModelState.AddModelError("", $"User '{userName}' doesn't exist");
+
+            return View();
         }
 
         protected override void Dispose(bool disposing)

@@ -1,12 +1,13 @@
 ﻿using PeriodicalsFinal.DataAccess.Models;
 using PeriodicalsFinal.DataAccess.Repository;
-using PeriodicalsFinal.Filters;
+using PeriodicalsFinal.Attributes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
 
 namespace PeriodicalsFinal.Controllers
 {
@@ -29,6 +30,8 @@ namespace PeriodicalsFinal.Controllers
             if ( (monthNum > 0 && monthNum < 13) && (yearNum >= 2000 && yearNum <= 2100))
             {
                 var edition = _editionRepository.GetEdition(magazine, yearNum, (Month)monthNum);
+
+                ViewBag.Articles = _editionRepository.GetArticles(edition.EditionId);
 
                 return View(edition);
             }
@@ -179,6 +182,85 @@ namespace PeriodicalsFinal.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-        
+
+        [HttpGet]
+        [MyAuthorize()]
+        public ActionResult Subscribe()
+        {
+            return View();
+        }
+
+        public ActionResult Edit(Guid editionId)
+        {
+            // Get magazines for correct display for magazine select on create edition page
+            var magazines = _magazineRepository.GetAll();
+            ViewBag.MagazineTitles = magazines.Select(a => a.MagazineName);
+
+            // Get topics for correct display for topic select on create edition page
+            var topics = _topicRepository.GetAll();
+            ViewBag.Topics = topics.Select(a => a.TopicName);
+
+            EditionModel edition = _editionRepository.GetById(editionId);
+
+            return View(edition);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditionModel edition, Guid editionId, string magazineName, string customMagazine, string topicName, HttpPostedFileBase editionCover)
+        {
+            // Get magazines for correct display for magazine select on create edition page
+            var magazines = _magazineRepository.GetAll();
+            ViewBag.MagazineTitles = magazines.Select(a => a.MagazineName);
+
+            // Get topics for correct display for topic select on create edition page
+            var topics = _topicRepository.GetAll();
+            ViewBag.Topics = topics.Select(a => a.TopicName);
+
+            if (ModelState.IsValid)
+            {
+                string magName = String.Empty;
+
+                // Checks what custom field for magazine selection was selected
+                if (!String.IsNullOrWhiteSpace(magazineName))
+                {
+                    magName = magazineName;
+                }
+                else
+                {
+                    // If custom field was selected, the new Magazine is creating
+                    MagazineModel magazineCreated = new MagazineModel() { MagazineId = Guid.NewGuid(), MagazineName = customMagazine };
+
+                    _magazineRepository.Create(magazineCreated);
+                    _magazineRepository.Save();
+                    magName = customMagazine;
+                }
+
+                TopicModel topic = _topicRepository.GetByName(topicName);
+                MagazineModel magazine = _magazineRepository.GetByName(magName);
+
+                // Convert image to byte array
+                byte[] bytes;
+                using (BinaryReader br = new BinaryReader(editionCover.InputStream))
+                {
+                    bytes = br.ReadBytes(editionCover.ContentLength);
+                }
+
+                edition.EditionId = editionId;
+                edition.EditionImage = bytes;
+                edition.MagazineId = magazine.MagazineId;
+                edition.TopicId = topic.TopicId;
+            }
+
+            return View(edition);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public  ActionResult Subscribe()
+        //{
+        //    return View();
+        //}
+
     }
 }

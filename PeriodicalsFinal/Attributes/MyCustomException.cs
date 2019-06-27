@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PeriodicalsFinal.Filters
+namespace PeriodicalsFinal.Attributes
 {
     public class MyCustomException : FilterAttribute, IExceptionFilter
     {

@@ -1,6 +1,6 @@
 ﻿using PeriodicalsFinal.DataAccess.Models;
 using PeriodicalsFinal.DataAccess.Repository;
-using PeriodicalsFinal.Filters;
+using PeriodicalsFinal.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

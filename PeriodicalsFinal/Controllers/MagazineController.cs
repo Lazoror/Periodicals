@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using PeriodicalsFinal.DataAccess.Repository;
 using PeriodicalsFinal.DataAccess.Models;
 using System.IO;
-using PeriodicalsFinal.Filters;
+using PeriodicalsFinal.Attributes;
 
 namespace PeriodicalsFinal.Controllers
 {

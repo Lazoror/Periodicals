@@ -14,12 +14,13 @@ namespace PeriodicalsFinal.DataAccess.Repository
 
         public void Create(TopicModel entity)
         {
-            throw new NotImplementedException();
+            entity.TopicId = Guid.NewGuid();
+            _db.Topics.Add(entity);
         }
 
         public void Delete(TopicModel entity)
         {
-            throw new NotImplementedException();
+            _db.Entry(entity).State = System.Data.Entity.EntityState.Deleted;
         }
 
         public IEnumerable<TopicModel> GetAll()
@@ -29,22 +30,29 @@ namespace PeriodicalsFinal.DataAccess.Repository
 
         public TopicModel GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _db.Topics.FirstOrDefault(a => a.TopicId == id);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _db.SaveChanges();
         }
 
         public void Update(TopicModel entity)
         {
-            throw new NotImplementedException();
+            _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
 
         public TopicModel GetByName(string name)
         {
             return _db.Topics.FirstOrDefault(a => a.TopicName == name);
+        }
+
+        public bool IsUsedTopic(string name)
+        {
+            TopicModel topic = GetByName(name);
+
+            return _db.Editions.Any(a => a.TopicId == topic.TopicId);
         }
     }
 }

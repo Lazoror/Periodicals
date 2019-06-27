@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PeriodicalsFinal.DataAccess.Repository;
-using PeriodicalsFinal.Filters;
+using PeriodicalsFinal.Attributes;
 
 namespace PeriodicalsFinal.Controllers
 {

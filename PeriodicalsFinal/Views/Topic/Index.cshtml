@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Manage topics</h2>
+
+@using (Html.BeginForm())
+{
+    <input type="text" name="topicName" placeholder="Topic name" class="form-control mb-3"/>
+
+    <input type="submit" name="topicManage" value="Edit" class="btn btn-custom" />
+    <input type="submit" name="topicManage" value="Create" class="btn btn-custom"/>
+    <input type="submit" name="topicManage" value="Delete" class="btn btn-custom"/>
+}
