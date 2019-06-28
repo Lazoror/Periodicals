@@ -27,7 +27,22 @@
         {
             <div class="admin-controls">
                 @Html.ActionLink("Edit", "Edit", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
-                @Html.ActionLink("Delete", "Delete", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
+
+
+                @if (Model.EditionStatus != EditionStatus.Active)
+                {
+                    @Html.ActionLink("Activate", "Activate", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
+                }
+                @if (Model.EditionStatus == EditionStatus.Deleted)
+                {
+                    @Html.ActionLink("Delete forever", "Remove", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
+                }
+                else
+                {
+                    @Html.ActionLink("Delete", "Delete", "Edition", new { editionId = Model.EditionId }, new { @class = "btn btn-custom" })
+                }
+
+
             </div>
         }
 
@@ -48,7 +63,7 @@
     <div class="col-md-6">
         <img src="@imgSrc" alt="@Model.EditionTitle cover" class="img-fluid" />
 
-        <div class="subscribe">
+        <div class="subscribe text-center">
             @Html.ActionLink("Subscribe", "Subscribe", "Edition", new { }, new { })
         </div>
     </div>

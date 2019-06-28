@@ -426,6 +426,11 @@
     <Content Include="Views\Shared\_AdminNavs.cshtml" />
     <Content Include="Views\Topic\Index.cshtml" />
     <Content Include="Views\Shared\_SearchForm.cshtml" />
+    <Content Include="Views\Edition\Creating.cshtml" />
+    <Content Include="Views\Edition\Deleted.cshtml" />
+    <Content Include="Views\Edition\_EditionList.cshtml" />
+    <Content Include="Views\Manage\Find.cshtml" />
+    <Content Include="Views\Manage\LockoutUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

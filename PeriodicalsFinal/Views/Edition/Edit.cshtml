@@ -1,17 +1,23 @@
 ﻿@model PeriodicalsFinal.DataAccess.Models.EditionModel
 
+@using PeriodicalsFinal.DataAccess.Models
+
 @{
-    IEnumerable<string> magazineTitles = ViewBag.MagazineTitles;
-    IEnumerable<string> topics = ViewBag.Topics;
+    IEnumerable<string>
+    magazineTitles = ViewBag.MagazineTitles;
+    IEnumerable<string>
+        topics = ViewBag.Topics;
     ViewBag.Title = "Edit";
 
     var imgSrc = "";
-
+    var base64 = "";
     if (Model.EditionImage != null)
     {
-        var base64 = Convert.ToBase64String(Model.EditionImage);
+        base64 = Convert.ToBase64String(Model.EditionImage);
         imgSrc = String.Format("data:image/gif;base64,{0}", base64);
     }
+
+    EditionModel edition = Model;
 
 }
 
@@ -99,16 +105,18 @@
             <div class="col-md-10">
                 <img src="@imgSrc" alt="user photo" class="img-fluid" />
                 <p>Allowed png, jpg (Max: 3mb)</p>
-                <input type="file" name="editionCover" class="btn btn-custom" accept="image/png,image/jpeg" />>
-                @Html.ValidationMessage("editionCover", new { @class = "text-danger" })
+                <input type="file" name="editionCover" class="btn btn-custom" accept="image/png,image/jpeg" />
+                @Html.ValidationMessageFor(model => model.EditionPrice, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <input type="hidden" name="editionId" value="@Model.EditionId" />
+        <input type="hidden" name="coverOld" value="@base64"/>
+        <input type="hidden" name="EditionStatus" value="@Model.EditionStatus"/>
 
         <div class='form-group'>
             <div class='col-md-offset-2 col-md-10'>
-                <input type='submit' value='Create' class='btn btn-custom' />
+                <input type='submit' value='Edit' class='btn btn-custom' />
             </div>
         </div>
     </div>

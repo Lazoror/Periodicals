@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "LockoutUser";
+}
+
+<h2>LockoutUser</h2>
+
+@using (Html.BeginForm("LockoutUser", "Manage", FormMethod.Post))
+{
+    <input type="number" name="timeDay" placeholder="Lockout days period" class="form-control mb-3"/>
+    <input type="hidden" value="@ViewBag.UserName" name="userName" />
+
+    <input type="submit" value="Ban" class="btn btn-custom"/>
+}

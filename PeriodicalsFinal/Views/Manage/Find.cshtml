@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Find";
+}
+
+<h2>Find user</h2>
+
+@using(Html.BeginForm("Index", "Manage", FormMethod.Get))
+{
+    <input type="email" name="userEmail" class="form-control mb-3" placeholder="User email"/>
+
+    <input type="submit" class="btn btn-custom" value="Find"/>
+}

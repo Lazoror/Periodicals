@@ -1,0 +1,31 @@
+﻿@model PeriodicalsFinal.DataAccess.Models.EditionModel
+
+@using PeriodicalsFinal.DataAccess.Models
+
+@{
+    ViewBag.Title = "Creating";
+
+    IEnumerable<EditionModel> editions = ViewBag.editions;
+
+
+}
+
+@foreach (EditionModel item in editions)
+{
+    var base64 = Convert.ToBase64String(item.EditionImage);
+    var imgSrc = String.Format("data:image/png;base64,{0}", base64);
+
+    <div class="mb-4 row">
+        <div class="col-md-4">
+            <img src="@imgSrc" alt="user photo" class="img-fluid" />
+        </div>
+        <div class="col-md-8">
+            @Html.ActionLink($"{@item.Magazine.MagazineName}: {item.EditionMonth} {item.EditionYear}", "Index", "Edition", new { magazine = item.Magazine.MagazineName, year = item.EditionYear, month = (int)item.EditionMonth }, new { @class = "edition-date" })
+        </div>
+    </div>
+
+
+
+
+}
+

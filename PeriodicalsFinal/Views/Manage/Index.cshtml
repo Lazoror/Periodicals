@@ -5,7 +5,8 @@
 @{
     ViewBag.Title = "Manage Your account";
     ApplicationUser user = ViewBag.User;
-    IEnumerable<SubscriptionModel> subs = ViewBag.Subs;
+    IEnumerable<SubscriptionModel>
+    subs = ViewBag.Subs;
 
     var imgSrc = "";
 
@@ -15,7 +16,6 @@
         imgSrc = String.Format("data:image/gif;base64,{0}", base64);
     }
 
-
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-md-3">
         <div class="row">
-
+            
             @if (user.UserPhoto != null)
             {
                 <div class="user-photo">
@@ -45,6 +45,17 @@
     </div>
     <div class="col-md-9">
         <div class="user-profile">
+            @if (user.LockoutEndDateUtc != null)
+            {
+                <p class="text-danger">Lockout end date: @user.LockoutEndDateUtc</p>
+            }
+
+            @if (User.IsInRole("Admin") && user.UserName != User.Identity.Name)
+            {
+                @Html.ActionLink("Ban user", "LockoutUser", "Manage", new { userName = user.UserName }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Unban user", "UnlockUser", "Manage", new { userName = user.UserName }, new { @class = "btn btn-custom" })
+            }
+
             <div class="user-profile-name">
                 <label>Name:</label>
                 <p>@user.UserName (@ViewBag.UserRole[0])</p>
@@ -121,10 +132,11 @@
     @*
         Phone Numbers can used as a second factor of verification in a two-factor authentication system.
 
-         See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-            for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+        See
+        <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+        for details on setting up this ASP.NET application to support two-factor authentication using SMS.
 
-         Uncomment the following block after you have set up two-factor authentication
+        Uncomment the following block after you have set up two-factor authentication
     *@
     @*
         <dt>Phone Number:</dt>
@@ -132,21 +144,23 @@
             @(Model.PhoneNumber ?? "None")
             @if (Model.PhoneNumber != null)
             {
-                <br />
-                <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                }
+            <br />
+            <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+            using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+            @Html.AntiForgeryToken()
+            <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+            }
             }
             else
             {
-                <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-            }
+            <text>
+                [&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                }
         </dd>
     *@
-    @*<dt>Two-Factor Authentication:</dt>
+    @*
+        <dt>Two-Factor Authentication:</dt>
         <dd>
             <p>
                 There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
@@ -154,24 +168,27 @@
             </p>*@
     @*@if (Model.TwoFactor)
         {
-            using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <text>Enabled
-                <input type="submit" value="Disable" class="btn btn-link" />
-                </text>
-            }
+        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+        @Html.AntiForgeryToken()
+        <text>
+            Enabled
+            <input type="submit" value="Disable" class="btn btn-link" />
+        </text>
+        }
         }
         else
         {
-            using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <text>Disabled
-                <input type="submit" value="Enable" class="btn btn-link" />
-                </text>
-            }
+        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+        @Html.AntiForgeryToken()
+        <text>
+            Disabled
+            <input type="submit" value="Enable" class="btn btn-link" />
+        </text>
+        }
         }*@
-    @*</dd>
+    @*
+            </dd>
         </dl>*@
 </div>

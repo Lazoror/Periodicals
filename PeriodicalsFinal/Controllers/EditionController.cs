@@ -31,9 +31,20 @@ namespace PeriodicalsFinal.Controllers
             {
                 var edition = _editionRepository.GetEdition(magazine, yearNum, (Month)monthNum);
 
-                ViewBag.Articles = _editionRepository.GetArticles(edition.EditionId);
+                if( (edition.EditionStatus == EditionStatus.Creating || edition.EditionStatus == EditionStatus.Deleted) && User.IsInRole("Admin"))
+                {
+                    ViewBag.Articles = _editionRepository.GetArticles(edition.EditionId);
 
-                return View(edition);
+                    return View(edition);
+                }
+                else if (edition.EditionStatus == EditionStatus.Active)
+                {
+                    ViewBag.Articles = _editionRepository.GetArticles(edition.EditionId);
+
+                    return View(edition);
+                }
+
+                
             }
 
             return View();
@@ -64,6 +75,8 @@ namespace PeriodicalsFinal.Controllers
             // Get topics for correct display for topic select on create edition page
             var topics = _topicRepository.GetAll();
             ViewBag.Topics = topics.Select(a => a.TopicName);
+
+            #region Validation
 
             // Validation of custom fields
             if (String.IsNullOrWhiteSpace(magazineName) && String.IsNullOrWhiteSpace(customMagazine))
@@ -115,6 +128,7 @@ namespace PeriodicalsFinal.Controllers
                 ModelState.AddModelError(nameof(editionCover), "Cover must be smaller than 3mb.");
             }
 
+            #endregion
 
             if (ModelState.IsValid)
             {
@@ -155,7 +169,7 @@ namespace PeriodicalsFinal.Controllers
                 _editionRepository.Create(edition);
                 _editionRepository.Save();
 
-                return RedirectToAction("Index", "Magazine");
+                return RedirectToAction("Index", "Edition", new { magazine = magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth});
 
             }
 
@@ -174,9 +188,7 @@ namespace PeriodicalsFinal.Controllers
         {
             if(deleteConfirm == "Yes")
             {
-                EditionModel edition = _editionRepository.GetById(editionId);
-
-                _editionRepository.Delete(edition);
+                _editionRepository.DeleteById(editionId);
                 _editionRepository.Save();
             }
 
@@ -207,8 +219,60 @@ namespace PeriodicalsFinal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditionModel edition, Guid editionId, string magazineName, string customMagazine, string topicName, HttpPostedFileBase editionCover)
+        public ActionResult Edit(EditionModel edition, Guid editionId, string magazineName, string customMagazine, string topicName, HttpPostedFileBase editionCoverNew, string coverOld)
         {
+            #region Validation
+
+            // Validation of custom fields
+            if (String.IsNullOrWhiteSpace(magazineName) && String.IsNullOrWhiteSpace(customMagazine))
+            {
+                ModelState.AddModelError(nameof(magazineName), "The Magazine field is reqiured.");
+            }
+
+            if (!String.IsNullOrWhiteSpace(magazineName) && !String.IsNullOrWhiteSpace(customMagazine))
+            {
+                ModelState.AddModelError(nameof(magazineName), "Select existing magazine or create new, not both.");
+            }
+
+            if (String.IsNullOrWhiteSpace(topicName))
+            {
+                ModelState.AddModelError(nameof(topicName), "The Topic field is reqiured.");
+            }
+
+            if (String.IsNullOrWhiteSpace(customMagazine) && String.IsNullOrWhiteSpace(magazineName))
+            {
+                ModelState.AddModelError(nameof(magazineName), "The Magazine field is reqiured.");
+            }
+
+            if (customMagazine.Length > 200 || magazineName.Length > 200)
+            {
+                ModelState.AddModelError(nameof(magazineName), "The Magazine name field must be less than 200 characters.");
+            }
+
+            if (edition.EditionMonth == 0)
+            {
+                ModelState.AddModelError(nameof(edition.EditionMonth), "The Edition month field is required.");
+            }
+
+            // Clear errors from model field, because we have our custom field
+            ModelState[nameof(edition.EditionImage)].Errors.Clear();
+
+            if(editionCoverNew != null)
+            {
+                // if not null checks for type
+                if (editionCoverNew.ContentType != "image/png" && editionCoverNew.ContentType != @"image/jpeg")
+                {
+                    ModelState.AddModelError(nameof(edition.EditionImage), "Only png and jpeg allowed");
+                }
+                // If not null and proper type checks if file is smaller than 3mb
+                else if (editionCoverNew.ContentLength > 3000000)
+                {
+                    ModelState.AddModelError(nameof(edition.EditionImage), "Cover must be smaller than 3mb.");
+                }
+            }
+
+            #endregion
+
             // Get magazines for correct display for magazine select on create edition page
             var magazines = _magazineRepository.GetAll();
             ViewBag.MagazineTitles = magazines.Select(a => a.MagazineName);
@@ -241,18 +305,66 @@ namespace PeriodicalsFinal.Controllers
 
                 // Convert image to byte array
                 byte[] bytes;
-                using (BinaryReader br = new BinaryReader(editionCover.InputStream))
+
+                if (editionCoverNew != null)
                 {
-                    bytes = br.ReadBytes(editionCover.ContentLength);
+                    using (BinaryReader br = new BinaryReader(editionCoverNew.InputStream))
+                    {
+                        bytes = br.ReadBytes(editionCoverNew.ContentLength);
+                    }
+                }
+                else
+                {
+                    bytes = Convert.FromBase64String(coverOld);
                 }
 
-                edition.EditionId = editionId;
                 edition.EditionImage = bytes;
+                edition.EditionId = editionId;
                 edition.MagazineId = magazine.MagazineId;
                 edition.TopicId = topic.TopicId;
+
+                _editionRepository.Update(edition);
+                _editionRepository.Save();
+
+                return RedirectToAction("Index", "Edition", new { magazine = magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth });
             }
 
             return View(edition);
+        }
+
+        [MyAuthorize(Roles = "Admin, Publisher")]
+        public ActionResult Creating()
+        {
+            var creatingEditions = _editionRepository.GetCreating();
+
+            ViewBag.editions = creatingEditions;
+
+            return View();
+        }
+
+        public ActionResult Deleted()
+        {
+            var deletedEditions = _editionRepository.GetDeleted();
+
+            ViewBag.editions = deletedEditions;
+
+            return View();
+        }
+
+        public ActionResult Activate(Guid editionId)
+        {
+            _editionRepository.Activate(editionId);
+            _editionRepository.Save();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Remove(Guid editionId)
+        {
+            _editionRepository.Remove(editionId);
+            _editionRepository.Save();
+
+            return RedirectToAction("Index", "Home");
         }
 
         //[HttpPost]

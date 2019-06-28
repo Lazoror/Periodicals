@@ -56,7 +56,7 @@ namespace PeriodicalsFinal.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message, string error)
+        public async Task<ActionResult> Index(ManageMessageId? message, string error, string userEmail)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -68,6 +68,21 @@ namespace PeriodicalsFinal.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+
+            if (User.IsInRole("Admin"))
+            {
+                if (!String.IsNullOrWhiteSpace(userEmail))
+                {
+                    ApplicationUser userFind = await UserManager.FindByEmailAsync(userEmail);
+
+                    if (userFind != null)
+                    {
+                        userId = userFind.Id;
+                    }
+
+                }
+            }
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -132,6 +147,12 @@ namespace PeriodicalsFinal.Controllers
             error = "Upload Only images smaller than 3mb!";
 
             return RedirectToAction("Index",new { error });
+        }
+
+        [MyAuthorize(Roles = "Admin")]
+        public ActionResult Find()
+        {
+            return View();
         }
 
         //
@@ -381,36 +402,52 @@ namespace PeriodicalsFinal.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
-
-        public ActionResult LockoutUser()
+        [MyAuthorize(Roles = "Admin")]
+        public async Task<RedirectToRouteResult> UnlockUser(string userName)
         {
+            ApplicationUser user = await UserManager.FindByNameAsync(userName);
+
+            if (user != null)
+            {
+                bool isLocked = await UserManager.IsLockedOutAsync(user.Id);
+
+                if (isLocked)
+                {
+                    user.LockoutEndDateUtc = null;
+                    await UserManager.UpdateAsync(user);
+
+                }
+            }
+
+            return RedirectToAction("Index", "Manage", new { userEmail = userName });
+        }
+
+        [MyAuthorize(Roles = "Admin")]
+        public ActionResult LockoutUser(string userName)
+        {
+            ViewBag.UserName = userName;
+
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> LockoutUser(string userName, int timeDay)
+        [MyAuthorize(Roles = "Admin")]
+        public async Task<RedirectToRouteResult> LockoutUser(string userName, int timeDay)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(userName);
+            ApplicationUser user = await UserManager.FindByEmailAsync(userName);
 
             if(user != null)
             {
-                bool isLocked = await _userManager.IsLockedOutAsync(user.Id);
+                bool isLocked = await UserManager.IsLockedOutAsync(user.Id);
 
                 if (!isLocked)
                 {
-                    await _userManager.SetLockoutEndDateAsync(user.Id, DateTime.Today.AddDays(timeDay));
+                    await UserManager.SetLockoutEndDateAsync(user.Id, DateTime.UtcNow.AddDays(timeDay));
 
-                    return RedirectToAction("LockoutUser");
                 }
-
-                ModelState.AddModelError("", $"User '{userName}' is already locked");
-
             }
 
-            ModelState.AddModelError("", $"User '{userName}' doesn't exist");
-
-            return View();
+            return RedirectToAction("Index", "Manage", new { userEmail = userName });
         }
 
         protected override void Dispose(bool disposing)
