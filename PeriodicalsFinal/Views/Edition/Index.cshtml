@@ -64,7 +64,8 @@
         <img src="@imgSrc" alt="@Model.EditionTitle cover" class="img-fluid" />
 
         <div class="subscribe text-center">
-            @Html.ActionLink("Subscribe", "Subscribe", "Edition", new { }, new { })
+            @Html.ActionLink("Subscribe", "Subscribe", "Payment", new {successReturn = Request.Url.ToString(), paymentPrice = Model.EditionPrice, editionId = Model.EditionId}, new { })
+            <span>- @Model.EditionPrice$</span>
         </div>
     </div>
 

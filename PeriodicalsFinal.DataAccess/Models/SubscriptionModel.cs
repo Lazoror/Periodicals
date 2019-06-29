@@ -12,7 +12,7 @@ namespace PeriodicalsFinal.DataAccess.Models
     [Table(name: "Subscription")]
     public class SubscriptionModel
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
         public Guid SubscriptionId { get; set; }
         public Guid EditionId { get; set; }

@@ -12,9 +12,28 @@ namespace PeriodicalsFinal.Controllers
     {
         private readonly EditionRepository _editionRepository = new EditionRepository();
 
-        public ActionResult Index()
+        public ActionResult Index(string price, string alphabet)
         {
             var editions = _editionRepository.GetAll().Where(a => a.EditionStatus == EditionStatus.Active);
+
+            if(price == "Asc")
+            {
+                editions = editions.OrderBy(a => a.EditionPrice);
+            }
+            else if (price == "Desc")
+            {
+                editions = editions.OrderByDescending(a => a.EditionPrice);
+            }
+
+            if(alphabet == "Asc")
+            {
+                editions = editions.OrderBy(a => a.EditionTitle);
+            }
+            else if (price == "Desc")
+            {
+                editions = editions.OrderByDescending(a => a.EditionTitle);
+            }
+
             Dictionary<EditionModel, IEnumerable<ArticleModel>> editionsAndArticles = new Dictionary<EditionModel, IEnumerable<ArticleModel>>();
 
             foreach (var edition in editions)
@@ -27,11 +46,19 @@ namespace PeriodicalsFinal.Controllers
             return View();
         }
 
-        public RedirectToRouteResult Search(string name)
+        public RedirectToRouteResult Search(string searchText)
         {
-            return RedirectToAction("Index", "Edition", new { magazine = "entrepreneur", year = 2019, month = 4 });
+            if(searchText.Length < 5)
+            {
+                return RedirectToAction("Index");
+            }
+
+            EditionModel edition = _editionRepository.GetAll().FirstOrDefault(a => a.EditionTitle.Contains(searchText));
+
+            return RedirectToAction("Index", "Edition", new { magazine = edition.Magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth });
         }
        
 
     }
 }
+

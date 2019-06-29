@@ -61,8 +61,8 @@ namespace PeriodicalsFinal
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "110293064722-03im3g6cqqtmaqner4csapgo7c2m8v5u.apps.googleusercontent.com",
-                ClientSecret = "x_8Jw5TlbUlRbR40SapJZcM-"
+                ClientId = "723432735543-4pbcc9rlecmju7ufkbl54uf9ft5oh518.apps.googleusercontent.com",
+                ClientSecret = "zQrOwfn_yvVbfCQ26TZnPQDV"
             });
         }
     }
