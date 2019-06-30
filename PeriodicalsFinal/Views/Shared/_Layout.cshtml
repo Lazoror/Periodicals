@@ -6,7 +6,6 @@
     <title>@ViewBag.Title - Periodicals "Cinnabon"</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    @Styles.Render("~/Content/bootstrap-select.min.css")
 
 </head>
 <body>
@@ -36,18 +35,17 @@
         string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
     }
 
-    @Scripts.Render("~/bundles/jquery")
+
     <div class="container body-content">
         <div class="row">
             <div class="col-md-9">
                 @RenderBody()
             </div>
             <div class="col-md-3">
+                <p class="h3 text-uppercase font-weight-bold">Sorting</p>
+                <hr />
                 @if (controllerName == "Home" && actionName == "Index")
                 {
-                    <p class="h3 text-uppercase font-weight-bold">Sorting</p>
-                    <hr />
-
                     <div class="sorting">
                         <div class="sort-control">
                             <span>Sort by price:</span>
@@ -75,16 +73,9 @@
 
                     </div>
 
-                    <p class="h3 text-uppercase font-weight-bold mt-4">Choose by topic</p>
+                    <p class="h3 text-uppercase font-weight-bold mt-4">smth</p>
                     <hr />
-                    <div class="topic-select">
-                        <select class="selectpicker-topic" data-live-search="true" name="topicName" id="topicName">
-                            @foreach (string item in ViewBag.Topics)
-                            {
-                                <option data-tokens="@item">@item</option>
-                            }
-                        </select>
-                    </div>
+
                 }
 
 
@@ -97,9 +88,9 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
+
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/Scripts/bootstrap-select.min.js")
+    @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
 </body>
 </html>

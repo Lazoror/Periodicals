@@ -2,8 +2,11 @@
     @using (Html.BeginForm("Search", "Home", FormMethod.Post))
     {
         <div class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search" aria-label="Search" name="searchText">
-
+            <input class="form-control  search-input" type="search" placeholder="Search" aria-label="Search" name="searchText">
+            <select class="form-control mr-sm-2 select-search" name="searchType">
+                <option>By title</option>
+                <option>By topic</option>
+            </select>
             <input type="submit" class="btn btn-light my-2 my-sm-0" value="Search"/>
         </div>
     }

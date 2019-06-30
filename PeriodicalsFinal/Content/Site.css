@@ -25,8 +25,8 @@ textarea {
 }
 
 .search-input {
-    min-width: 550px;
-    max-width: 550px;
+    min-width: 450px;
+    max-width: 450px;
 }
 
 .bg-custom {
@@ -105,4 +105,14 @@ label {
 
 .sort-control > a:hover{
     text-decoration: none;
+}
+
+.select-search {
+    border-left: none;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.search-input {
+    border-right: none;
+    border-radius: 4px 0px 0px 4px;
 }

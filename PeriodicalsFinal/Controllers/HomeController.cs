@@ -14,11 +14,16 @@ namespace PeriodicalsFinal.Controllers
         private readonly TopicRepository _topicRepository = new TopicRepository();
 
 
-        public ActionResult Index(string price, string alphabet)
+        public ActionResult Index(string price, string alphabet, string topicId)
         {
             var editions = _editionRepository.GetAll().Where(a => a.EditionStatus == EditionStatus.Active);
 
-            ViewBag.Topics = _topicRepository.GetAll().Select(a => a.TopicName);
+            Guid.TryParse(topicId, out Guid topicIdGuid);
+
+            if (!String.IsNullOrWhiteSpace(topicId))
+            {
+                editions = _editionRepository.GetAll().Where(a => a.TopicId == topicIdGuid);
+            }
 
             if (price == "Asc")
             {
@@ -52,16 +57,38 @@ namespace PeriodicalsFinal.Controllers
             return View();
         }
 
-        public RedirectToRouteResult Search(string searchText)
+        public RedirectToRouteResult Search(string searchText, string searchType)
         {
-            if(searchText.Length < 5)
+            if(searchType == "By title")
             {
-                return RedirectToAction("Index");
+                if (searchText.Length < 5)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                EditionModel edition = _editionRepository.GetAll().FirstOrDefault(a => a.EditionTitle.Contains(searchText));
+
+                return RedirectToAction("Index", "Edition", new { magazine = edition.Magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth });
+            }
+            else if(searchType == "By topic")
+            {
+                if (searchText.Length < 5)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                TopicModel topic = _topicRepository.GetAll().FirstOrDefault(a => a.TopicName.Contains(searchText));
+
+                if (topic != null)
+                {
+                    return RedirectToAction("Index", new { topicId = topic.TopicId });
+                }
+
+                
+
             }
 
-            EditionModel edition = _editionRepository.GetAll().FirstOrDefault(a => a.EditionTitle.Contains(searchText));
-
-            return RedirectToAction("Index", "Edition", new { magazine = edition.Magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth });
+            return RedirectToAction("Index");
         }
        
 
