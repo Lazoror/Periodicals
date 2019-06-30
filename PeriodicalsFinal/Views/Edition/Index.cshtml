@@ -63,10 +63,15 @@
     <div class="col-md-6">
         <img src="@imgSrc" alt="@Model.EditionTitle cover" class="img-fluid" />
 
-        <div class="subscribe text-center">
-            @Html.ActionLink("Subscribe", "SubscibeConfirm", "Payment", new {successReturn = Request.Url.ToString(), paymentPrice = Model.EditionPrice, editionId = Model.EditionId}, new { })
-            <span>- @Model.EditionPrice$</span>
-        </div>
+        @if (!ViewBag.IsSubscribed)
+        {
+            <div class="subscribe text-center">
+                @Html.ActionLink("Subscribe", "SubscibeConfirm", "Payment", new { successReturn = Request.Url.ToString(), paymentPrice = Model.EditionPrice, editionId = Model.EditionId }, new { })
+                <span>- @Model.EditionPrice$</span>
+            </div>
+        }
+
+
     </div>
 
     <div class="col-md-6">
@@ -78,7 +83,7 @@
             {
                 if (ViewBag.IsSubscribed)
                 {
-                    @Html.ActionLink(article.ArticleTitle, "Index", "Article", new { }, new { @class = "article-preview-title" })
+                    @Html.ActionLink(article.ArticleTitle, "Index", "Article", new { articleId = article.ArticleId }, new { @class = "article-preview-title" })
                 }
                 else
                 {
@@ -100,7 +105,7 @@
         {
             if (ViewBag.IsSubscribed)
             {
-                @Html.ActionLink(article.ArticleTitle, "Index", "Article", new { }, new { @class = "article-preview-title" })
+                @Html.ActionLink(article.ArticleTitle, "Index", "Article", new {articleId = article.ArticleId }, new { @class = "article-preview-title" })
             }
             else
             {

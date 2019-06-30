@@ -1,8 +1,14 @@
-﻿
+﻿@model PeriodicalsFinal.DataAccess.Models.ArticleModel
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2 class="edition-title">@Model.Edition.Magazine.MagazineName : @Model.Edition.EditionYear @Model.Edition.EditionMonth</h2>
+<h3 class="article-title">@Model.ArticleTitle</h3>
+<p class="article-shortTitle">@Model.ShortDescription</p>
 
+<div class="article-content">
+    @Html.Raw(Server.HtmlDecode(Model.ArticleContent))
+</div>

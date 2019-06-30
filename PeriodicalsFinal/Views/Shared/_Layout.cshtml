@@ -42,10 +42,11 @@
                 @RenderBody()
             </div>
             <div class="col-md-3">
-                <p class="h3 text-uppercase font-weight-bold">Sorting</p>
-                <hr />
                 @if (controllerName == "Home" && actionName == "Index")
                 {
+                    <p class="h3 text-uppercase font-weight-bold">Sorting</p>
+                    <hr />
+
                     <div class="sorting">
                         <div class="sort-control">
                             <span>Sort by price:</span>
@@ -88,9 +89,8 @@
         </footer>
     </div>
 
-
-    @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

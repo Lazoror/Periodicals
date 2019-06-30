@@ -14,11 +14,22 @@ namespace PeriodicalsFinal.Controllers
     public class ArticleController : Controller
     {
         private readonly ArticleRepository _articleRepository = new ArticleRepository();
+        private readonly SubscribeRepository _subscribeRepository = new SubscribeRepository();
 
-        // GET: Article
-        public ActionResult Index()
+        [MyCustomException]
+        public ActionResult Index(Guid articleId)
         {
-            return View();
+            ArticleModel article = _articleRepository.GetById(articleId);
+
+            if(article != null)
+            {
+                if(_subscribeRepository.IsUserSubscribed(article.Edition.EditionId, User.Identity.Name))
+                {
+                    return View(article);
+                }
+            }
+
+            return RedirectToAction("Index", "Error", new { message = "You're not subscribed. Subscribe first." });
         }
 
         [HttpGet]
