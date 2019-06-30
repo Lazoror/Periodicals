@@ -9,7 +9,6 @@
 }
 
 
-
 @foreach (KeyValuePair<EditionModel, IEnumerable<ArticleModel>> edition in editions)
 {
     // Converts image from byte array to an image
@@ -46,3 +45,20 @@
 }
 
 
+
+
+
+@Scripts.Render("~/Scripts/select-picker-config.js")
+
+<script>
+    var items = document.querySelectorAll(".dropdown-item");
+
+    items.forEach(function (elem) {
+        elem.addEventListener('click', function () {
+            window.location.search = "?topicSearch=" + elem.innerHTML;
+            alert("lol");
+
+        });
+    });
+
+</script>

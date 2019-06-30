@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - Periodicals "Cinnabon"</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/bootstrap-select.min.css")
 
 </head>
 <body>
@@ -30,28 +31,64 @@
         </div>
     </nav>
 
+    @{
+        string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+        string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    }
 
+    @Scripts.Render("~/bundles/jquery")
     <div class="container body-content">
         <div class="row">
             <div class="col-md-9">
                 @RenderBody()
             </div>
             <div class="col-md-3">
-                <p class="h3 text-uppercase font-weight-bold">Sidebar</p>
-                <hr />
+                @if (controllerName == "Home" && actionName == "Index")
+                {
+                    <p class="h3 text-uppercase font-weight-bold">Sorting</p>
+                    <hr />
 
-                <div class="sorting">
-                    <span>
-                        Sort by price:
-                        @Html.ActionLink("Asceding", "Index", "Home", new { price = "Asc" }, new { @id = "priceSort Asc" })
-                        @Html.ActionLink("Desceding", "Index", "Home", new { price = "Desc" }, new { @id = "priceSort Desc" })
+                    <div class="sorting">
+                        <div class="sort-control">
+                            <span>Sort by price:</span>
 
-                        Sort by edition:
-                        @Html.ActionLink("A-Z", "Index", "Home", new { alphabet = "Asc" }, new { @id = "EditionSort Asc" })
-                        @Html.ActionLink("Z-A", "Index", "Home", new { alphabet = "Desc" }, new { @id = "EditionSort Desc" })
+                            <a href="@Url.Action("Index", "Home", new {price = "Asc" })">
+                                <img class="price Asc sort" src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTUuOTk3IDEzLjM3NGwtNy4wODEgNy4wODFMNyAxOC41NGw4Ljk5Ny04Ljk5OCA5LjAwMyA5LTEuOTE2IDEuOTE2eiIvPjwvc3ZnPg==' />
+                            </a>
+                            <a href="@Url.Action("Index", "Home", new {price = "Desc" })">
+                                <img class="price Desc sort" src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTYuMDAzIDE4LjYyNmw3LjA4MS03LjA4MUwyNSAxMy40NmwtOC45OTcgOC45OTgtOS4wMDMtOSAxLjkxNy0xLjkxNnoiLz48L3N2Zz4=' />
+                            </a>
 
-                    </span>
-                </div>
+                        </div>
+
+                        <div class="sort-control">
+                            <span>Sort by alphabet:</span>
+
+                            <a href="@Url.Action("Index", "Home", new {alphabet = "Asc" })">
+                                <img class="price Asc sort" src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTUuOTk3IDEzLjM3NGwtNy4wODEgNy4wODFMNyAxOC41NGw4Ljk5Ny04Ljk5OCA5LjAwMyA5LTEuOTE2IDEuOTE2eiIvPjwvc3ZnPg==' />
+                            </a>
+                            <a href="@Url.Action("Index", "Home", new {alphabet = "Desc" })">
+                                <img class="price Desc sort" src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBkPSJNMTYuMDAzIDE4LjYyNmw3LjA4MS03LjA4MUwyNSAxMy40NmwtOC45OTcgOC45OTgtOS4wMDMtOSAxLjkxNy0xLjkxNnoiLz48L3N2Zz4=' />
+                            </a>
+                        </div>
+
+
+                    </div>
+
+                    <p class="h3 text-uppercase font-weight-bold mt-4">Choose by topic</p>
+                    <hr />
+                    <div class="topic-select">
+                        <select class="selectpicker-topic" data-live-search="true" name="topicName" id="topicName">
+                            @foreach (string item in ViewBag.Topics)
+                            {
+                                <option data-tokens="@item">@item</option>
+                            }
+                        </select>
+                    </div>
+                }
+
+
+
             </div>
         </div>
         <hr />
@@ -60,8 +97,11 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/bootstrap-select.min.js")
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+

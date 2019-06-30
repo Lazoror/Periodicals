@@ -11,27 +11,31 @@ namespace PeriodicalsFinal.Controllers
     public class HomeController : Controller
     {
         private readonly EditionRepository _editionRepository = new EditionRepository();
+        private readonly TopicRepository _topicRepository = new TopicRepository();
+
 
         public ActionResult Index(string price, string alphabet)
         {
             var editions = _editionRepository.GetAll().Where(a => a.EditionStatus == EditionStatus.Active);
 
-            if(price == "Asc")
+            ViewBag.Topics = _topicRepository.GetAll().Select(a => a.TopicName);
+
+            if (price == "Asc")
             {
-                editions = editions.OrderBy(a => a.EditionPrice);
+                editions = editions.OrderBy(a => a.EditionPrice).ToList();
             }
             else if (price == "Desc")
             {
-                editions = editions.OrderByDescending(a => a.EditionPrice);
+                editions = editions.OrderByDescending(a => a.EditionPrice).ToList();
             }
 
             if(alphabet == "Asc")
             {
-                editions = editions.OrderBy(a => a.EditionTitle);
+                editions = editions.OrderBy(a => a.EditionTitle).ToList();
             }
-            else if (price == "Desc")
+            else if (alphabet == "Desc")
             {
-                editions = editions.OrderByDescending(a => a.EditionTitle);
+                editions = editions.OrderByDescending(a => a.EditionTitle).ToList();
             }
 
             Dictionary<EditionModel, IEnumerable<ArticleModel>> editionsAndArticles = new Dictionary<EditionModel, IEnumerable<ArticleModel>>();
@@ -41,7 +45,9 @@ namespace PeriodicalsFinal.Controllers
                 editionsAndArticles.Add(edition, _editionRepository.GetArticles(edition.EditionId));
             }
 
+            
             ViewBag.Editions = editionsAndArticles;
+
 
             return View();
         }

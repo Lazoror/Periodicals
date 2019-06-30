@@ -102,3 +102,7 @@ label {
     margin-bottom: 15px;
     font-size: 36px;
 }
+
+.sort-control > a:hover{
+    text-decoration: none;
+}
