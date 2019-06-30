@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "SubscibeConfirm";
+}
+
+<h2>Confirm Subscibe</h2>
+
+@using (Html.BeginForm("Subscribe", "Payment", FormMethod.Get))
+{
+    <input type="submit" value="Confirm" class="btn btn-custom" />
+    <a href="@ViewBag.UrlReturn" class="btn btn-custom">Refuse</a>
+
+    <input type="hidden" name="editionId" value="@ViewBag.EditionId" />
+    <input type="hidden" name="successReturn" value="@ViewBag.UrlReturn" />
+    <input type="hidden" name="paymentPrice" value="@ViewBag.Price" />
+
+
+}

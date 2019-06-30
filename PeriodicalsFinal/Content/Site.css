@@ -88,6 +88,10 @@ label {
     font-size: 20px;
 }
 
+.article-preview-title {
+    color: #141414;
+}
+
 .article-preview-shortTitle {
     color: #616161;
     font-size: 14px;

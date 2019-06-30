@@ -1,4 +1,6 @@
-﻿using PeriodicalsFinal.DataAccess.DAL;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,8 @@ namespace PeriodicalsFinal.DataAccess.Repository
     public class SubscribeRepository : IRepository<SubscriptionModel>
     {
         private readonly ApplicationDbContext _db = new ApplicationDbContext();
+        private readonly UserManager<ApplicationUser> _userManager = new UserManager<ApplicationUser>(
+            new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
         public void Create(SubscriptionModel entity)
         {
@@ -44,6 +48,13 @@ namespace PeriodicalsFinal.DataAccess.Repository
         public void Update(SubscriptionModel entity)
         {
             _db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+        }
+
+        public bool IsUserSubscribed(Guid editionId, string userName)
+        {
+            ApplicationUser user = _userManager.FindByName(userName);
+
+            return _db.Subscriptions.Any(a => a.EditionId == editionId && a.Id == user.Id);
         }
     }
 }

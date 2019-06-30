@@ -205,27 +205,48 @@ namespace PeriodicalsFinal.Controllers
 
         public ActionResult Failure(string status)
         {
-            return View(status);
+            ViewBag.Message = status;
+
+            return View();
         }
+
+
+        public ActionResult SubscibeConfirm(Guid editionId, string successReturn, float? paymentPrice)
+        {
+            ViewBag.EditionId = editionId;
+            ViewBag.UrlReturn = successReturn;
+            ViewBag.Price = paymentPrice;
+
+            return View();
+        }
+
 
         public ActionResult Subscribe(Guid editionId, string successReturn, float? paymentPrice)
         {
             ApplicationUser user = UserManager.FindById(User.Identity.GetUserId());
+            bool isUserSubscribed = _subscribeRepository.IsUserSubscribed(editionId, user.UserName);
 
-            if(user.Account >= paymentPrice)
+            if (!isUserSubscribed)
             {
-                SubscriptionModel subscription = new SubscriptionModel() { Id = user.Id, EditionId = editionId };
+                if (user.Account >= paymentPrice)
+                {
+                    SubscriptionModel subscription = new SubscriptionModel() { Id = user.Id, EditionId = editionId };
 
-                _subscribeRepository.Create(subscription);
-                _subscribeRepository.Save();
+                    _subscribeRepository.Create(subscription);
+                    _subscribeRepository.Save();
 
-                user.Account -= paymentPrice;
-                UserManager.Update(user);
+                    user.Account -= paymentPrice;
+                    UserManager.Update(user);
 
-                return Redirect(successReturn);
+                    return Redirect(successReturn);
+                }
+
+                return RedirectToAction("Failure", new { status = "insufficient funds in the account" });
+
             }
 
-            return RedirectToAction("Failure", new { status = "insufficient funds in the account" });
+            return RedirectToAction("Failure", new { status = "You are already subscribed to this edition" });
+
         }
 
         public ActionResult PaymentConfirm()

@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-md-3">
         <div class="row">
-            
+
             @if (user.UserPhoto != null)
             {
                 <div class="user-photo">
@@ -63,7 +63,7 @@
             <hr />
             <div class="user-profile-account">
                 <label>Money on your account:</label>
-                <p>@user.Account$</p>
+                <p>@String.Format("{0:0.00}", user.Account)$</p>
                 @Html.ActionLink("Replenish account", "PaymentConfirm", "Payment")
             </div>
             <hr />
@@ -103,10 +103,13 @@
                 @foreach (SubscriptionModel item in subs)
                 {
                     <div class="subscribe">
-                        <span>@item.Edition.Magazine.MagazineName - </span>
-                        <span>@item.Edition.EditionTitle - </span>
-                        <span>@item.Edition.EditionYear - </span>
-                        <span>@item.Edition.EditionMonth</span>
+                        <a href="@Url.Action("Index", "Edition", new { magazine = item.Edition.Magazine.MagazineName, year = item.Edition.EditionYear, month = (int)item.Edition.EditionMonth })">
+                            <span>@item.Edition.Magazine.MagazineName - </span>
+                            <span>@item.Edition.EditionTitle - </span>
+                            <span>@item.Edition.EditionYear - </span>
+                            <span>@item.Edition.EditionMonth</span>
+                        </a>
+                        
                         <hr />
                     </div>
 

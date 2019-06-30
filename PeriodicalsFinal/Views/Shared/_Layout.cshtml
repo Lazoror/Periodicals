@@ -39,6 +39,19 @@
             <div class="col-md-3">
                 <p class="h3 text-uppercase font-weight-bold">Sidebar</p>
                 <hr />
+
+                <div class="sorting">
+                    <span>
+                        Sort by price:
+                        @Html.ActionLink("Asceding", "Index", "Home", new { price = "Asc" }, new { @id = "priceSort Asc" })
+                        @Html.ActionLink("Desceding", "Index", "Home", new { price = "Desc" }, new { @id = "priceSort Desc" })
+
+                        Sort by edition:
+                        @Html.ActionLink("A-Z", "Index", "Home", new { alphabet = "Asc" }, new { @id = "EditionSort Asc" })
+                        @Html.ActionLink("Z-A", "Index", "Home", new { alphabet = "Desc" }, new { @id = "EditionSort Desc" })
+
+                    </span>
+                </div>
             </div>
         </div>
         <hr />

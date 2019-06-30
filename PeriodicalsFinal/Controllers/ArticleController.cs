@@ -10,12 +10,11 @@ using System.Web.Mvc;
 namespace PeriodicalsFinal.Controllers
 {
 
-    [MyAuthorize(Roles = "Admin, Publisher")]
+    [MyAuthorize]
     public class ArticleController : Controller
     {
         private readonly ArticleRepository _articleRepository = new ArticleRepository();
 
-        [Authorize]
         // GET: Article
         public ActionResult Index()
         {
@@ -23,6 +22,7 @@ namespace PeriodicalsFinal.Controllers
         }
 
         [HttpGet]
+        [MyAuthorize(Roles = "Admin, Publisher")]
         public ActionResult Create(string editionId)
         {
            ViewBag.EditionId = editionId;
@@ -32,6 +32,7 @@ namespace PeriodicalsFinal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [MyAuthorize(Roles = "Admin, Publisher")]
         public ActionResult Create(ArticleModel article, Guid editionId, string urlReferrer)
         {
             if (ModelState.IsValid)

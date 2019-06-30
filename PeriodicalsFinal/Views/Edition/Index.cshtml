@@ -64,7 +64,7 @@
         <img src="@imgSrc" alt="@Model.EditionTitle cover" class="img-fluid" />
 
         <div class="subscribe text-center">
-            @Html.ActionLink("Subscribe", "Subscribe", "Payment", new {successReturn = Request.Url.ToString(), paymentPrice = Model.EditionPrice, editionId = Model.EditionId}, new { })
+            @Html.ActionLink("Subscribe", "SubscibeConfirm", "Payment", new {successReturn = Request.Url.ToString(), paymentPrice = Model.EditionPrice, editionId = Model.EditionId}, new { })
             <span>- @Model.EditionPrice$</span>
         </div>
     </div>
@@ -76,7 +76,14 @@
         {
             foreach (ArticleModel article in articles.Take(3))
             {
-                <span class="article-preview-title">@article.ArticleTitle</span>
+                if (ViewBag.IsSubscribed)
+                {
+                    @Html.ActionLink(article.ArticleTitle, "Index", "Article", new { }, new { @class = "article-preview-title" })
+                }
+                else
+                {
+                    <span class="article-preview-title">@article.ArticleTitle</span>
+                }
 
                 if (article.ShortDescription != null)
                 {
@@ -88,10 +95,17 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 mt-5">
         @foreach (ArticleModel article in articles.Skip(3))
         {
-            <span class="article-preview-title">@article.ArticleTitle</span>
+            if (ViewBag.IsSubscribed)
+            {
+                @Html.ActionLink(article.ArticleTitle, "Index", "Article", new { }, new { @class = "article-preview-title" })
+            }
+            else
+            {
+                <span class="article-preview-title">@article.ArticleTitle</span>
+            }
 
             if (article.ShortDescription != null)
             {

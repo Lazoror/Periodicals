@@ -8,9 +8,10 @@ namespace PeriodicalsFinal.Controllers
 {
     public class ErrorController : Controller
     {
-        public ActionResult Index(string returnUrl)
+        public ActionResult Index(string returnUrl, string message)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.Message = message;
 
             return View();
         }

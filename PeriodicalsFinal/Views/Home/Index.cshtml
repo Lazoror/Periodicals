@@ -8,18 +8,7 @@
     var editions = ViewBag.Editions;
 }
 
-<div class="sorting">
-    <span>
-        Sort by price:
-        @Html.ActionLink("Asceding", "Index", "Home", new { price = "Asc" }, new { @id = "priceSort Asc" })
-        @Html.ActionLink("Desceding", "Index", "Home", new { price = "Desc" }, new { @id = "priceSort Desc" })
 
-        Sort by edition:
-        @Html.ActionLink("A-Z", "Index", "Home", new { alphabet = "Asc" }, new { @id = "EditionSort Asc" })
-        @Html.ActionLink("Z-A", "Index", "Home", new { alphabet = "Desc" }, new { @id = "EditionSort Desc" })
-
-    </span>
-</div>
 
 @foreach (KeyValuePair<EditionModel, IEnumerable<ArticleModel>> edition in editions)
 {
@@ -41,7 +30,7 @@
                 <p class="edition-title">@edition.Key.EditionTitle</p>
 
 
-                @foreach (ArticleModel article in edition.Value)
+                @foreach (ArticleModel article in edition.Value.Take(3))
                 {
                     <span class="article-preview-title">@article.ArticleTitle</span>
 

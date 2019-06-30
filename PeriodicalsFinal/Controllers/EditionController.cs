@@ -18,6 +18,7 @@ namespace PeriodicalsFinal.Controllers
         private readonly EditionRepository _editionRepository = new EditionRepository();
         private readonly MagazineRepository _magazineRepository = new MagazineRepository();
         private readonly TopicRepository _topicRepository = new TopicRepository();
+        private readonly SubscribeRepository _subscribeRepository = new SubscribeRepository();
 
         [Route("{magazine}/{year}/{month}")]
         [AllowAnonymous]
@@ -27,11 +28,25 @@ namespace PeriodicalsFinal.Controllers
             Int32.TryParse(month, out int monthNum);
             Int32.TryParse(year, out int yearNum);
 
-            if ( (monthNum > 0 && monthNum < 13) && (yearNum >= 2000 && yearNum <= 2100))
+            if ((monthNum > 0 && monthNum < 13) && (yearNum >= 2000 && yearNum <= 2100))
             {
                 var edition = _editionRepository.GetEdition(magazine, yearNum, (Month)monthNum);
 
-                if( (edition.EditionStatus == EditionStatus.Creating || edition.EditionStatus == EditionStatus.Deleted) && User.IsInRole("Admin"))
+                if (edition.EditionStatus == EditionStatus.Deleted && !User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Error", new { message = "This edition has been deleted" });
+                }
+
+                bool isUserSubscribed = false;
+
+                if (User.Identity.IsAuthenticated)
+                {
+                    isUserSubscribed = _subscribeRepository.IsUserSubscribed(edition.EditionId, User.Identity.Name);
+                }
+
+                ViewBag.IsSubscribed = isUserSubscribed;
+                // Show deleted and creating edition only to the Admin
+                if ((edition.EditionStatus == EditionStatus.Creating || edition.EditionStatus == EditionStatus.Deleted) && User.IsInRole("Admin"))
                 {
                     ViewBag.Articles = _editionRepository.GetArticles(edition.EditionId);
 
@@ -44,12 +59,12 @@ namespace PeriodicalsFinal.Controllers
                     return View(edition);
                 }
 
-                
+
             }
 
             return View();
         }
-        
+
         [HttpGet]
         public ActionResult Create()
         {
@@ -63,7 +78,7 @@ namespace PeriodicalsFinal.Controllers
 
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(EditionModel edition, string magazineName, string customMagazine, string topicName, HttpPostedFileBase editionCover)
@@ -169,7 +184,7 @@ namespace PeriodicalsFinal.Controllers
                 _editionRepository.Create(edition);
                 _editionRepository.Save();
 
-                return RedirectToAction("Index", "Edition", new { magazine = magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth});
+                return RedirectToAction("Index", "Edition", new { magazine = magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth });
 
             }
 
@@ -178,7 +193,7 @@ namespace PeriodicalsFinal.Controllers
 
         [HttpGet]
         public ActionResult Delete(Guid editionId)
-        { 
+        {
             return View(editionId);
         }
 
@@ -186,7 +201,7 @@ namespace PeriodicalsFinal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(string deleteConfirm, Guid editionId)
         {
-            if(deleteConfirm == "Yes")
+            if (deleteConfirm == "Yes")
             {
                 _editionRepository.DeleteById(editionId);
                 _editionRepository.Save();
@@ -257,7 +272,7 @@ namespace PeriodicalsFinal.Controllers
             // Clear errors from model field, because we have our custom field
             ModelState[nameof(edition.EditionImage)].Errors.Clear();
 
-            if(editionCoverNew != null)
+            if (editionCoverNew != null)
             {
                 // if not null checks for type
                 if (editionCoverNew.ContentType != "image/png" && editionCoverNew.ContentType != @"image/jpeg")
