@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\MagazineModel.cs" />
+    <Compile Include="Payment\PaymentBonus.cs" />
     <Compile Include="Payment\PaypalConfiguration.cs" />
     <Compile Include="Repository\ArticleRepository.cs" />
     <Compile Include="Repository\MagazineRepository.cs" />

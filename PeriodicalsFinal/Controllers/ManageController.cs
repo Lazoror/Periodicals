@@ -97,7 +97,16 @@ namespace PeriodicalsFinal.Controllers
             var subs = db.Subscriptions.Where(a => a.Id == userId).ToList();
             var user = UserManager.FindById(userId);
 
-            
+            DateTime.TryParse(user.BirthDate.ToString(), out DateTime userBirthday);
+
+
+            ViewBag.Birthday = false;
+
+            if (userBirthday.Day == DateTime.UtcNow.Day && userBirthday.Month == DateTime.UtcNow.Month)
+            {
+                ViewBag.Birthday = true;
+            }
+
 
             ViewBag.User = user;
             ViewBag.UserRole = UserManager.GetRoles(user.Id);

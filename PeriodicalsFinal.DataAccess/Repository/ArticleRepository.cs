@@ -14,7 +14,7 @@ namespace PeriodicalsFinal.DataAccess.Repository
 
         public void Create(ArticleModel entity)
         {
-            _db.Articles.Add(entity);
+           _db.Articles.Add(entity);
         }
 
         public void Delete(ArticleModel entity)
@@ -25,7 +25,7 @@ namespace PeriodicalsFinal.DataAccess.Repository
 
         public IEnumerable<ArticleModel> GetAll()
         {
-            return _db.Articles.ToList();
+            return _db.Articles.Select(a => a);
         }
 
         public ArticleModel GetById(Guid id)

@@ -19,6 +19,8 @@ namespace PeriodicalsFinal.Controllers
     {
         private readonly SubscribeRepository _subscribeRepository = new SubscribeRepository();
         private ApplicationUserManager _userManager;
+        private readonly PaymentBonus paymentBonus = new PaymentBonus();
+
 
         public ApplicationUserManager UserManager
         {
@@ -118,7 +120,13 @@ namespace PeriodicalsFinal.Controllers
 
             float.TryParse(Session["payPrice"].ToString(), out float replenishmentPrice);
 
-            user.Account += replenishmentPrice;
+            // Checks for bonuses
+            float bonusIfBirthday = paymentBonus.PayBonusIfBirhday(User.Identity.Name, replenishmentPrice);
+            float bonusIfLargePayment = paymentBonus.IsLargePayment(replenishmentPrice);
+
+            float bonus = bonusIfBirthday + bonusIfLargePayment;
+
+            user.Account += replenishmentPrice + bonus;
             UserManager.Update(user);
 
             //on successful payment, show success page to user.
@@ -234,6 +242,7 @@ namespace PeriodicalsFinal.Controllers
 
                     _subscribeRepository.Create(subscription);
                     _subscribeRepository.Save();
+
 
                     user.Account -= paymentPrice;
                     UserManager.Update(user);
