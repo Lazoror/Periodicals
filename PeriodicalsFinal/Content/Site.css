@@ -130,3 +130,25 @@ label {
 .article-content {
     font-size: 19px;
 }
+
+#ShortDescription {
+    min-width: 100%;
+}
+
+#ArticleTitle {
+    min-width: 100%;
+}
+
+.styles {
+    padding: 8px 15px;
+    border: 1px #757575 solid;
+    display: inline-block;
+    font-weight: 600;
+
+}
+
+.styles:hover {
+    background-color: #757575;
+    color: #ffffff;
+    cursor: pointer;
+}

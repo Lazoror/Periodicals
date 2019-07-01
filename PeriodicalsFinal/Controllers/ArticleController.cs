@@ -59,5 +59,31 @@ namespace PeriodicalsFinal.Controllers
 
             return View(article);
         }
+
+        [MyAuthorize(Roles = "Admin, Publisher")]
+        public ActionResult Edit(Guid articleId, string urlRefferer)
+        {
+            ArticleModel article = _articleRepository.GetById(articleId);
+
+            ViewBag.UrlRefferer = urlRefferer;
+
+            return View(article);
+        }
+
+        [HttpPost]
+        [MyAuthorize(Roles = "Admin, Publisher")]
+        public ActionResult Edit(ArticleModel article, Guid editionId, string urlReferrer)
+        {
+            if (ModelState.IsValid)
+            {
+                article.EditionId = editionId;
+                _articleRepository.Update(article);
+                _articleRepository.Save();
+
+                return Redirect(urlReferrer);
+            }
+
+            return View(article);
+        }
     }
 }

@@ -1,0 +1,76 @@
+﻿@model PeriodicalsFinal.DataAccess.Models.ArticleModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Article</h4>
+    <a href="@ViewBag.UrlRefferer">Back to edition</a>
+    <hr />
+    <input type="hidden" name="editionId" value="@Model.EditionId">
+    <input type="hidden" name="urlReferrer" value="@Request.UrlReferrer">
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ArticleTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ArticleTitle, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ArticleTitle, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ShortDescription, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="styles">
+            <span>P</span>
+        </div>
+        <div class="styles">
+            <span>A</span>
+        </div>
+        <div class="styles">
+            <span>B</span>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ArticleContent, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.ArticleContent, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ArticleContent, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ArticleStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(model => model.ArticleStatus, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ArticleStatus, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-custom" />
+        </div>
+    </div>
+</div>
+}
+
+@Scripts.Render("~/Scripts/wrapper.js")

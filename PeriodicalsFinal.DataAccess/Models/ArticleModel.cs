@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace PeriodicalsFinal.DataAccess.Models
 {
@@ -29,6 +30,7 @@ namespace PeriodicalsFinal.DataAccess.Models
 
         [StringLength(10000, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 300)]
         [Required]
+        [AllowHtml]
         [Display(Name = "Article Content")]
         public string ArticleContent { get; set; }
 

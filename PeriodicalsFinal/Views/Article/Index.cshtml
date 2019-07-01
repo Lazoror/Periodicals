@@ -5,6 +5,15 @@
     ViewBag.Title = "Index";
 }
 
+@if (User.IsInRole("Admin") || User.IsInRole("Publisher"))
+{
+    <div class="article-controls">
+        @Html.ActionLink("Edit", "Edit", "Article", new { articleId = Model.ArticleId, urlRefferer = Request.Url }, new { @class = "btn btn-custom" })
+    </div>
+}
+
+    
+
 <h2 class="edition-title">@Model.Edition.Magazine.MagazineName : @Model.Edition.EditionYear @Model.Edition.EditionMonth</h2>
 <h3 class="article-title">@Model.ArticleTitle</h3>
 <p class="article-shortTitle">@Model.ShortDescription</p>
