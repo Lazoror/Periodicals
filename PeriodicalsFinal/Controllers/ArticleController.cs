@@ -23,7 +23,7 @@ namespace PeriodicalsFinal.Controllers
 
             if(article != null)
             {
-                if(_subscribeRepository.IsUserSubscribed(article.Edition.EditionId, User.Identity.Name))
+                if(_subscribeRepository.IsUserSubscribed(article.Edition.EditionId, User.Identity.Name) || User.IsInRole("Publisher"))
                 {
                     return View(article);
                 }

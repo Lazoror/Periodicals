@@ -54,6 +54,9 @@
             {
                 @Html.ActionLink("Ban user", "LockoutUser", "Manage", new { userName = user.UserName }, new { @class = "btn btn-custom" })
                 @Html.ActionLink("Unban user", "UnlockUser", "Manage", new { userName = user.UserName }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Make Admin", "MakeAdmin", "Manage", new { userName = user.UserName }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Make publisher", "MakePublisher", "Manage", new { userName = user.UserName }, new { @class = "btn btn-custom" })
+                @Html.ActionLink("Make User", "MakeUser", "Manage", new { userName = user.UserName }, new { @class = "btn btn-custom" })
             }
 
             <div class="user-profile-name">

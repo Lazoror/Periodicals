@@ -1,48 +1,9 @@
-﻿@using PeriodicalsFinal.DataAccess.Models
-
-
+﻿
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Editions";
 
-    var editions = ViewBag.Editions;
+
 }
 
-
-@foreach (KeyValuePair<EditionModel, IEnumerable<ArticleModel>> edition in editions)
-{
-    // Converts image from byte array to an image
-    var base64 = Convert.ToBase64String(edition.Key.EditionImage);
-    var imgSrc = String.Format("data:image/png;base64,{0}", base64);
-
-
-    <div class="edition-wrapper mb-4">
-        <p class="h3 text-uppercase font-weight-bold">@edition.Key.Magazine.MagazineName</p>
-        <hr />
-        <div class="row">
-            <div class="col-md-6 edition-cover">
-                <img src="@imgSrc" alt="@edition.Key.EditionTitle Cover" class="img-thumbnail img-fluid" />
-            </div>
-            <div class="col-md-6 edition-info">
-                @Html.ActionLink($"{edition.Key.EditionMonth} {edition.Key.EditionYear}", "Index", "Edition", new { magazine = edition.Key.Magazine.MagazineName, year = edition.Key.EditionYear, month = (int)edition.Key.EditionMonth }, new { @class = "edition-date" })
-
-                <p class="edition-title">@edition.Key.EditionTitle</p>
-
-
-                @foreach (ArticleModel article in edition.Value.Take(3))
-                {
-                    <span class="article-preview-title">@article.ArticleTitle</span>
-
-                    if (article.ShortDescription != null)
-                    {
-                        <p class="article-preview-shortTitle">@article.ShortDescription</p>
-                    }
-                }
-
-            </div>
-        </div>
-    </div>
-}
-
-
-
+@Html.Partial("_EditionList")

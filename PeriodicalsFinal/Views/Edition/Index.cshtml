@@ -81,7 +81,7 @@
         {
             foreach (ArticleModel article in articles.Take(3))
             {
-                if (ViewBag.IsSubscribed)
+                if (ViewBag.IsSubscribed || User.IsInRole("Publisher"))
                 {
                     @Html.ActionLink(article.ArticleTitle, "Index", "Article", new { articleId = article.ArticleId }, new { @class = "article-preview-title" })
                 }
@@ -103,7 +103,7 @@
     <div class="col-md-12 mt-5">
         @foreach (ArticleModel article in articles.Skip(3))
         {
-            if (ViewBag.IsSubscribed)
+            if (ViewBag.IsSubscribed || User.IsInRole("Publisher"))
             {
                 @Html.ActionLink(article.ArticleTitle, "Index", "Article", new {articleId = article.ArticleId }, new { @class = "article-preview-title" })
             }

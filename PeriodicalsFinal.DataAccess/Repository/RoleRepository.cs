@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using PeriodicalsFinal.DataAccess.DAL;
 using PeriodicalsFinal.DataAccess.Models;
+using System.Linq;
 
 namespace PeriodicalsFinal.DataAccess.Repository
 {
@@ -30,6 +31,17 @@ namespace PeriodicalsFinal.DataAccess.Repository
         {
             var idResult = _userManager.AddToRole(userId, roleName);
             return idResult.Succeeded;
+        }
+
+        public bool RemoveUserFromRole(string userId, string roleName)
+        {
+            var idResult = _userManager.RemoveFromRole(userId, roleName);
+            return idResult.Succeeded;
+        }
+
+        public string GetUserRole(string userId)
+        {
+            return _userManager.GetRoles(userId).FirstOrDefault();
         }
 
     }

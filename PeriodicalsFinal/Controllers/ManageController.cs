@@ -19,7 +19,7 @@ namespace PeriodicalsFinal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private RoleRepository _roleRepository = new RoleRepository();
         public ManageController()
         {
         }
@@ -457,6 +457,51 @@ namespace PeriodicalsFinal.Controllers
             }
 
             return RedirectToAction("Index", "Manage", new { userEmail = userName });
+        }
+
+        public async Task<RedirectToRouteResult> MakeAdmin(string userName)
+        {
+            await ChangeUserRole(userName, "Admin");
+
+            ApplicationUser user = await UserManager.FindByNameAsync(userName);
+
+            return RedirectToAction("Index", "Manage", new { userEmail = user.Email });
+        }
+
+        public async Task<RedirectToRouteResult> MakePublisher(string userName)
+        {
+            await ChangeUserRole(userName, "Publisher");
+
+            ApplicationUser user = await UserManager.FindByNameAsync(userName);
+
+            return RedirectToAction("Index", "Manage", new { userEmail = user.Email });
+        }
+
+        public async Task<RedirectToRouteResult> MakeUser(string userName)
+        {
+            await ChangeUserRole(userName, "User");
+
+            ApplicationUser user = await UserManager.FindByNameAsync(userName);
+
+            return RedirectToAction("Index", "Manage", new { userEmail = user.Email });
+        }
+
+        private async Task<bool> ChangeUserRole(string userName, string newRole)
+        {
+            ApplicationUser user = await UserManager.FindByNameAsync(userName);
+
+            string oldRole = _roleRepository.GetUserRole(user.Id);
+
+            if(oldRole != newRole)
+            {
+                _roleRepository.RemoveUserFromRole(user.Id, oldRole);
+                _roleRepository.AddUserToRole(user.Id, newRole);
+
+                return true;
+            }
+
+            return false;
+
         }
 
         protected override void Dispose(bool disposing)

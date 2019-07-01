@@ -57,7 +57,8 @@ namespace PeriodicalsFinal.Controllers
             return View();
         }
 
-        public RedirectToRouteResult Search(string searchText, string searchType)
+
+        public ActionResult Search(string searchText, string searchType)
         {
             if(searchType == "By title")
             {
@@ -66,9 +67,18 @@ namespace PeriodicalsFinal.Controllers
                     return RedirectToAction("Index");
                 }
 
-                EditionModel edition = _editionRepository.GetAll().FirstOrDefault(a => a.EditionTitle.Contains(searchText));
+                var editions = _editionRepository.GetAll().Where(a => a.EditionTitle.Contains(searchText));
 
-                return RedirectToAction("Index", "Edition", new { magazine = edition.Magazine.MagazineName, year = edition.EditionYear, month = (int)edition.EditionMonth });
+                Dictionary<EditionModel, IEnumerable<ArticleModel>> editionsAndArticles = new Dictionary<EditionModel, IEnumerable<ArticleModel>>();
+
+                foreach (var edition in editions)
+                {
+                    editionsAndArticles.Add(edition, _editionRepository.GetArticles(edition.EditionId));
+                }
+
+                ViewBag.Editions = editionsAndArticles;
+
+                return View();
             }
             else if(searchType == "By topic")
             {
